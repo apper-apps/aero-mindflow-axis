@@ -1,5 +1,6 @@
 class SubscriptionService {
   constructor() {
+  constructor() {
     this.delay = 300;
   }
 
@@ -23,7 +24,7 @@ class SubscriptionService {
           { field: { Name: "features" } },
           { field: { Name: "billing" } }
         ],
-        orderBy: [
+orderBy: [
           { fieldName: "CreatedOn", sorttype: "DESC" }
         ],
         pagingInfo: {
@@ -36,21 +37,14 @@ class SubscriptionService {
       
       if (!response.success) {
         console.error(response.message);
-        // Return default free subscription if no subscription found
         return this.getDefaultSubscription();
       }
 
       if (response.data && response.data.length > 0) {
-        const subscription = response.data[0];
-        return {
-          ...subscription,
-          features: JSON.parse(subscription.features || '{}'),
-          billing: JSON.parse(subscription.billing || '{}')
-        };
+        return response.data[0];
       }
-
-      // Return default free subscription if no subscription found
-      return this.getDefaultSubscription();
+      
+return this.getDefaultSubscription();
     } catch (error) {
       console.error("Error fetching subscription:", error);
       return this.getDefaultSubscription();
