@@ -13,11 +13,11 @@ export const habitService = {
     return habits.find(habit => habit.Id === id);
   },
 
-  async create(habitData) {
+async create(habitData) {
     await new Promise(resolve => setTimeout(resolve, 400));
-const newHabit = {
+    const newHabit = {
       ...habitData,
-      Id: Math.max(...habits.map(h => h.Id)) + 1,
+      Id: habits.length > 0 ? Math.max(...habits.map(h => h.Id)) + 1 : 1,
       completions: {},
       createdAt: new Date().toISOString()
     };
@@ -59,6 +59,6 @@ async toggleCompletion(id, date) {
       habit.completions[dateStr] = 1;
     }
     
-    return habit;
+    return { ...habit };
   }
 };

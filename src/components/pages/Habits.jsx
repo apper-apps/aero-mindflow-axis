@@ -210,11 +210,11 @@ setFormData({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {habits.map((habit) => (
+{habits.map((habit) => (
               <HabitCard
                 key={habit.Id}
                 habit={habit}
-                isCompleted={habit.completions && habit.completions.includes(today)}
+                isCompleted={habit.completions && habit.completions[today] > 0}
                 onToggle={toggleHabit}
                 onEdit={handleEdit}
                 onDelete={handleDelete}

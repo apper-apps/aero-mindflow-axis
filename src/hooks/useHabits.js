@@ -29,11 +29,13 @@ const toggleHabit = async (habitId) => {
         prevHabits.map(habit => 
           habit.Id === habitId ? updatedHabit : habit
         )
-      );
-      const todayCompletions = updatedHabit.completions?.[today.toISOString().split('T')[0]] || 0;
+);
+      const dateStr = today.toISOString().split('T')[0];
+      const todayCompletions = updatedHabit.completions?.[dateStr] || 0;
       toast.success(`Habit completed ${todayCompletions} time${todayCompletions !== 1 ? 's' : ''} today`);
     } catch (err) {
       toast.error("Failed to update habit");
+      console.error('Toggle habit error:', err);
     }
   };
 
