@@ -57,10 +57,10 @@ setFormData({
     }
   };
 
-  const handleEdit = (habit) => {
+const handleEdit = (habit) => {
     setEditingHabit(habit);
     setFormData({
-      name: habit.name,
+      name: habit.name || habit.Name,
       description: habit.description,
       category: habit.category,
       frequency: habit.frequency

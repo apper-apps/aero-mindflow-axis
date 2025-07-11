@@ -44,8 +44,8 @@ const GoalCard = ({ goal, onEdit, onDelete }) => {
         )}
       </div>
       
-      <div className="p-4">
-        <h3 className="font-semibold text-gray-100 mb-2">{goal.title}</h3>
+<div className="p-4">
+        <h3 className="font-semibold text-gray-100 mb-2">{goal.title || goal.Name}</h3>
         <p className="text-sm text-gray-400 mb-3 line-clamp-2">
           {goal.description}
         </p>
@@ -64,10 +64,10 @@ const GoalCard = ({ goal, onEdit, onDelete }) => {
             <ApperIcon name="Target" size={16} />
             <span>Goal</span>
           </div>
-          {goal.targetDate && (
+{(goal.target_date || goal.targetDate) && (
             <div className="flex items-center space-x-1">
               <ApperIcon name="Calendar" size={16} />
-              <span>{format(new Date(goal.targetDate), "MMM yyyy")}</span>
+              <span>{format(new Date(goal.target_date || goal.targetDate), "MMM yyyy")}</span>
             </div>
           )}
         </div>

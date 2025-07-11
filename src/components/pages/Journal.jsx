@@ -100,8 +100,8 @@ const handleEdit = (entry) => {
       type: entry.type,
       content: entry.content,
       mood: entry.mood,
-      tags: entry.tags ? entry.tags.join(", ") : "",
-      image: entry.imageUrl || null
+      tags: entry.Tags ? (typeof entry.Tags === 'string' ? entry.Tags : entry.Tags.join(", ")) : "",
+      image: entry.image_url || entry.imageUrl || null
     });
     setShowForm(true);
   };

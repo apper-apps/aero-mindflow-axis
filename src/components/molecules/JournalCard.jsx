@@ -66,11 +66,11 @@ const JournalCard = ({ entry, onEdit, onDelete }) => {
               />
             </div>
           )}
-          {entry.tags && entry.tags.length > 0 && (
+{((entry.Tags && entry.Tags.length > 0) || (entry.tags && entry.tags.length > 0)) && (
             <div className="flex flex-wrap gap-1">
-              {entry.tags.map((tag, index) => (
+              {(entry.Tags ? (typeof entry.Tags === 'string' ? entry.Tags.split(',') : entry.Tags) : entry.tags).map((tag, index) => (
                 <Badge key={index} variant="default">
-                  #{tag}
+                  #{tag.trim()}
                 </Badge>
               ))}
             </div>

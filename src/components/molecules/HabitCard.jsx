@@ -66,7 +66,7 @@ return (
               "font-medium text-gray-100 mb-1",
               todayCompletions > 0 && "text-success"
             )}>
-              {habit.name}
+              {habit.name || habit.Name}
               {todayCompletions > 1 && (
                 <span className="ml-2 text-xs bg-success/20 text-success px-2 py-1 rounded">
                   {todayCompletions}x today

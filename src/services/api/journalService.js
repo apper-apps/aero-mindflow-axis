@@ -1,82 +1,251 @@
-import journalData from "@/services/mockData/journal.json";
-
-let journalEntries = [...journalData];
-let imageStorage = new Map(); // Simple storage for images in development
 export const journalService = {
   async getAll() {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    return [...journalEntries].sort((a, b) => new Date(b.date) - new Date(a.date));
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "type" } },
+          { field: { Name: "date" } },
+          { field: { Name: "content" } },
+          { field: { Name: "mood" } },
+          { field: { Name: "image_url" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "Tags" } }
+        ],
+        orderBy: [
+          { fieldName: "date", sorttype: "DESC" }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords("journal_entry", params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching journal entries:", error);
+      throw error;
+    }
   },
 
   async getById(id) {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    return journalEntries.find(entry => entry.Id === id);
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "type" } },
+          { field: { Name: "date" } },
+          { field: { Name: "content" } },
+          { field: { Name: "mood" } },
+          { field: { Name: "image_url" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "Tags" } }
+        ]
+      };
+
+      const response = await apperClient.getRecordById("journal_entry", id, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching journal entry with ID ${id}:`, error);
+      throw error;
+    }
   },
 
   async getByDate(date) {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    const dateStr = date.toISOString().split('T')[0];
-    return journalEntries.filter(entry => entry.date.startsWith(dateStr));
-  },
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
 
-async create(entryData) {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    const newId = Math.max(...journalEntries.map(e => e.Id)) + 1;
-    
-    let imageUrl = null;
-    if (entryData.image) {
-      // In a real app, you would upload to cloud storage
-      // For now, we'll create a mock URL and store the file reference
-      imageUrl = `mock-image-${newId}-${Date.now()}`;
-      imageStorage.set(imageUrl, entryData.image);
-    }
-    
-    const newEntry = {
-      ...entryData,
-      Id: newId,
-      createdAt: new Date().toISOString(),
-      imageUrl: imageUrl
-    };
-    delete newEntry.image; // Remove file object from stored data
-    journalEntries.push(newEntry);
-    return newEntry;
-  },
-
-async update(id, entryData) {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const index = journalEntries.findIndex(entry => entry.Id === id);
-    if (index !== -1) {
-      let imageUrl = journalEntries[index].imageUrl;
+      const dateStr = date.toISOString().split('T')[0];
       
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "type" } },
+          { field: { Name: "date" } },
+          { field: { Name: "content" } },
+          { field: { Name: "mood" } },
+          { field: { Name: "image_url" } },
+          { field: { Name: "Tags" } }
+        ],
+        where: [
+          {
+            FieldName: "date",
+            Operator: "StartsWith",
+            Values: [dateStr]
+          }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords("journal_entry", params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching journal entries by date:", error);
+      throw error;
+    }
+  },
+
+  async create(entryData) {
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      let imageUrl = null;
+      if (entryData.image) {
+        // In a real app, you would upload to cloud storage
+        // For now, we'll create a mock URL
+        imageUrl = `mock-image-${Date.now()}`;
+      }
+
+      const recordData = {
+        Name: `${entryData.type} entry - ${new Date(entryData.date).toLocaleDateString()}`,
+        type: entryData.type,
+        date: entryData.date,
+        content: entryData.content,
+        mood: entryData.mood,
+        image_url: imageUrl,
+        Tags: Array.isArray(entryData.tags) ? entryData.tags.join(",") : entryData.tags || ""
+      };
+
+      const params = {
+        records: [recordData]
+      };
+
+      const response = await apperClient.createRecord("journal_entry", params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} records:${JSON.stringify(failedRecords)}`);
+          throw new Error("Failed to create journal entry");
+        }
+        
+        return successfulRecords[0]?.data;
+      }
+    } catch (error) {
+      console.error("Error creating journal entry:", error);
+      throw error;
+    }
+  },
+
+  async update(id, entryData) {
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      let imageUrl = entryData.imageUrl;
       if (entryData.image) {
         // Handle new image upload
         imageUrl = `mock-image-${id}-${Date.now()}`;
-        imageStorage.set(imageUrl, entryData.image);
       } else if (entryData.image === null) {
-        // Remove image
-        if (imageUrl) {
-          imageStorage.delete(imageUrl);
-        }
         imageUrl = null;
       }
+
+      const recordData = {
+        Id: parseInt(id),
+        Name: `${entryData.type} entry - ${new Date(entryData.date).toLocaleDateString()}`,
+        type: entryData.type,
+        date: entryData.date,
+        content: entryData.content,
+        mood: entryData.mood,
+        image_url: imageUrl,
+        Tags: Array.isArray(entryData.tags) ? entryData.tags.join(",") : entryData.tags || ""
+      };
+
+      const params = {
+        records: [recordData]
+      };
+
+      const response = await apperClient.updateRecord("journal_entry", params);
       
-      const updatedData = { ...entryData };
-      delete updatedData.image; // Remove file object
-      updatedData.imageUrl = imageUrl;
-      
-      journalEntries[index] = { ...journalEntries[index], ...updatedData };
-      return journalEntries[index];
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`);
+          throw new Error("Failed to update journal entry");
+        }
+        
+        return successfulUpdates[0]?.data;
+      }
+    } catch (error) {
+      console.error("Error updating journal entry:", error);
+      throw error;
     }
-    throw new Error("Journal entry not found");
   },
 
   async delete(id) {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const index = journalEntries.findIndex(entry => entry.Id === id);
-    if (index !== -1) {
-      journalEntries.splice(index, 1);
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+
+      const response = await apperClient.deleteRecord("journal_entry", params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
       return true;
+    } catch (error) {
+      console.error("Error deleting journal entry:", error);
+      throw error;
     }
-    throw new Error("Journal entry not found");
   }
 };

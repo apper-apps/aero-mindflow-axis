@@ -52,7 +52,8 @@ const goalData = {
         description: "",
         imageUrl: "",
         affirmation: "",
-        targetDate: ""
+        targetDate: "",
+        category: ""
       });
     } catch (err) {
       console.error("Failed to save goal:", err);
@@ -62,11 +63,11 @@ const goalData = {
 const handleEdit = (goal) => {
     setEditingGoal(goal);
 setFormData({
-      title: goal.title,
-      description: goal.description,
-      imageUrl: goal.imageUrl || "",
+      title: goal.title || goal.Name,
+      description: goal.description || "",
+      imageUrl: goal.image_url || goal.imageUrl || "",
       affirmation: goal.affirmation || "",
-      targetDate: goal.targetDate ? goal.targetDate.split('T')[0] : "",
+      targetDate: goal.target_date ? goal.target_date.split('T')[0] : "",
       category: goal.category || ""
     });
     setShowForm(true);
