@@ -75,12 +75,11 @@ return (
             </h3>
             {habit.description && (
               <p className="text-sm text-gray-400 mb-2">{habit.description}</p>
-            )}
-<div className="flex items-center space-x-2">
+)}
+            <div className="flex items-center space-x-2">
               <Badge variant={
                 habit.category === "Health" ? "success" : 
-                habit.category === "Productivity" ? "primary" : 
-                habit.category === "Mood Tracker" ? "secondary" : "accent"
+                habit.category === "Productivity" ? "primary" : "accent"
               }>
                 {habit.category}
               </Badge>

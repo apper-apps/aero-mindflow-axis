@@ -86,20 +86,5 @@
       "2024-01-13": 1,
       "2024-01-12": 1
     }
-  },
-  {
-    "Id": 7,
-    "name": "Track Mood",
-    "description": "Check in with emotional state multiple times daily",
-    "frequency": "daily",
-    "category": "Mood Tracker",
-    "color": "#EC4899",
-    "createdAt": "2024-01-07T00:00:00.000Z",
-    "completions": {
-      "2024-01-15": 3,
-      "2024-01-14": 2,
-      "2024-01-13": 4,
-      "2024-01-12": 2
-    }
+}
   }
-]

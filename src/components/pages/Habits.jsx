@@ -24,7 +24,7 @@ const Habits = () => {
     frequency: "daily"
 });
 
-  const categories = ["Wellness", "Health", "Learning", "Productivity", "Creativity", "Mood Tracker"];
+  const categories = ["Wellness", "Health", "Learning", "Productivity", "Creativity"];
   const frequencies = ["daily", "weekly", "monthly"];
   if (loading) {
     return <Loading type="cards" />;
