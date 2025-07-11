@@ -29,10 +29,10 @@ const Calendar = () => {
   const monthEnd = endOfMonth(currentDate);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
-  const getHabitsForDate = (date) => {
+const getHabitsForDate = (date) => {
     const dateStr = format(date, "yyyy-MM-dd");
     return habits.filter(habit => 
-      habit.completions && habit.completions.includes(dateStr)
+      habit.completions?.[dateStr]
     );
   };
 
