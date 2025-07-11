@@ -1,232 +1,276 @@
-import { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
 import Card from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
 import FormField from "@/components/molecules/FormField";
 import profileService from "@/services/api/profileService";
 
-const ProfileSettings = () => {
-  const { t } = useTranslation();
-  const fileInputRef = useRef(null);
-  
-  const [profile, setProfile] = useState(() => profileService.getProfile());
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    username: profile.username,
-    profilePicture: profile.profilePicture
-  });
+function ProfileSettings() {
+  const { t } = useTranslation()
+  const fileInputRef = useRef(null)
+  const [profile, setProfile] = useState({
+    username: '',
+    email: '',
+    bio: '',
+    profilePicture: null,
+    notifications: {
+      email: true,
+      push: true,
+      habitReminders: true,
+      goalDeadlines: true,
+      journalPrompts: false
+    },
+    privacy: {
+      profileVisibility: 'public',
+      shareProgress: true,
+      shareJournal: false
+    }
+  })
+  const [loading, setLoading] = useState(false)
+  const [errors, setErrors] = useState({})
+
+  // Load profile data on component mount
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const userProfile = await profileService.getProfile()
+        if (userProfile) {
+          setProfile(prev => ({
+            ...prev,
+            ...userProfile
+          }))
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error)
+      }
+    }
+    loadProfile()
+  }, [])
+
+  const validateForm = () => {
+    const newErrors = {}
+    
+    if (!profile.username?.trim()) {
+      newErrors.username = t('profileSettings.usernameRequired')
+    }
+    
+    if (!profile.email?.trim()) {
+      newErrors.email = t('profileSettings.emailRequired')
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email)) {
+      newErrors.email = t('profileSettings.emailInvalid')
+    }
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
+    if (!field || value === undefined) return
+    
+    setProfile(prev => ({
       ...prev,
       [field]: value
-    }));
-  };
+    }))
+    
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: null
+      }))
+    }
+  }
+
+  const validateFile = (file) => {
+    if (!file) return false
+    
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    const maxSize = 5 * 1024 * 1024 // 5MB
+    
+    if (!allowedTypes.includes(file.type)) {
+      toast.error(t('profileSettings.invalidFileType'))
+      return false
+    }
+    
+    if (file.size > maxSize) {
+      toast.error(t('profileSettings.fileTooLarge'))
+      return false
+    }
+    
+    return true
+  }
 
   const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    const file = event.target.files?.[0]
+    if (!file || !validateFile(file)) return
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      toast.error(t('profile.file_too_large'));
-      return;
-    }
-
-    if (!file.type.startsWith('image/')) {
-      toast.error(t('profile.invalid_file_type'));
-      return;
-    }
-
-    setLoading(true);
     try {
-      const imageUrl = await profileService.uploadProfilePicture(file);
-      setFormData(prev => ({
-        ...prev,
-        profilePicture: imageUrl
-      }));
-      toast.success(t('profile.picture_uploaded'));
+      setLoading(true)
+      const imageUrl = await profileService.uploadProfilePicture(file)
+      
+      if (imageUrl) {
+        setProfile(prev => ({
+          ...prev,
+          profilePicture: imageUrl
+        }))
+        toast.success(t('profileSettings.pictureUpdated'))
+      }
     } catch (error) {
-      toast.error(t('profile.upload_failed'));
+      console.error('Error uploading file:', error)
+      toast.error(t('profileSettings.pictureUploadError'))
     } finally {
-      setLoading(false);
+      setLoading(false)
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     
-    if (!formData.username.trim()) {
-      toast.error(t('profile.username_required'));
-      return;
+    if (!validateForm()) {
+      return
     }
-
-    setLoading(true);
+    
     try {
-      const updatedProfile = await profileService.updateProfile(formData);
-      setProfile(updatedProfile);
-      toast.success(t('profile.profile_updated'));
+      setLoading(true)
+      setErrors({})
       
-      // Force re-render of other components that use profile
-      window.location.reload();
+      const updatedProfile = await profileService.updateProfile(profile)
+      if (updatedProfile) {
+        setProfile(updatedProfile)
+        toast.success(t('profileSettings.profileUpdated'))
+      }
     } catch (error) {
-      toast.error(t('profile.update_failed'));
+      console.error('Error updating profile:', error)
+      toast.error(t('profileSettings.updateError'))
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleRemovePicture = () => {
-    setFormData(prev => ({
+    setProfile(prev => ({
       ...prev,
       profilePicture: null
-    }));
-  };
+    }))
+  }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-100 mb-2">
-          {t('profile.title')}
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-100">
+          {t('profileSettings.title')}
         </h1>
-        <p className="text-gray-400">
-          {t('profile.subtitle')}
-        </p>
       </div>
 
-      <Card className="p-6">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Profile Picture Section */}
-          <div className="text-center">
-            <div className="mb-4">
-              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden bg-gradient-to-br from-primary to-secondary relative">
-                {formData.profilePicture ? (
-                  <img 
-                    src={formData.profilePicture} 
-                    alt="Profile" 
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <ApperIcon name="User" size={32} className="text-white" />
-                  </div>
-                )}
-                {formData.profilePicture && (
-                  <button
-                    type="button"
-                    onClick={handleRemovePicture}
-                    className="absolute -top-2 -right-2 w-6 h-6 bg-error rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
-                  >
-                    <ApperIcon name="X" size={14} className="text-white" />
-                  </button>
-                )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Profile Picture Section */}
+        <Card className="p-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">
+            {t('profileSettings.profilePicture')}
+          </h2>
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              {profile.profilePicture ? (
+                <img
+                  src={profile.profilePicture}
+                  alt="Profile"
+                  className="w-20 h-20 rounded-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none'
+                    e.target.nextSibling.style.display = 'flex'
+                  }}
+                />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <ApperIcon className="w-8 h-8 text-gray-400" />
+                </div>
+              )}
+              <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center" style={{ display: 'none' }}>
+                <ApperIcon className="w-8 h-8 text-gray-400" />
               </div>
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+            <div className="flex flex-col space-y-2">
               <Button
-                type="button"
                 variant="outline"
+                size="sm"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={loading}
-                className="flex items-center space-x-2"
               >
-                <ApperIcon name="Upload" size={16} />
-                <span>{t('profile.upload_picture')}</span>
+                {t('profileSettings.changePicture')}
               </Button>
-              
-              {formData.profilePicture && (
+              {profile.profilePicture && (
                 <Button
-                  type="button"
-                  variant="ghost"
+                  variant="outline"
+                  size="sm"
                   onClick={handleRemovePicture}
-                  className="flex items-center space-x-2 text-gray-400 hover:text-white"
+                  disabled={loading}
                 >
-                  <ApperIcon name="Trash2" size={16} />
-                  <span>{t('profile.remove_picture')}</span>
+                  {t('profileSettings.removePicture')}
                 </Button>
               )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
             </div>
-            
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-            
-            <p className="text-xs text-gray-400 mt-2">
-              {t('profile.picture_requirements')}
-            </p>
           </div>
+        </Card>
 
-          {/* Username Section */}
-          <FormField
-            label={t('profile.username')}
-            required
-            className="space-y-2"
-          >
-            <Input
+        {/* Basic Information */}
+        <Card className="p-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">
+            {t('profileSettings.basicInfo')}
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <FormField
+              label={t('profileSettings.username')}
               type="text"
-              value={formData.username}
+              value={profile.username || ''}
               onChange={(e) => handleInputChange('username', e.target.value)}
-              placeholder={t('profile.username_placeholder')}
-              className="w-full"
-              disabled={loading}
+              error={errors.username}
+              placeholder={t('profileSettings.usernamePlaceholder')}
+              required
             />
-            <p className="text-xs text-gray-400">
-              {t('profile.username_description')}
-            </p>
-          </FormField>
-
-          {/* Submit Button */}
-          <div className="pt-4 border-t border-gray-700">
+            <FormField
+              label={t('profileSettings.email')}
+              type="email"
+              value={profile.email || ''}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              error={errors.email}
+              placeholder={t('profileSettings.emailPlaceholder')}
+              required
+            />
+            <FormField
+              label={t('profileSettings.bio')}
+              multiline
+              value={profile.bio || ''}
+              onChange={(e) => handleInputChange('bio', e.target.value)}
+              error={errors.bio}
+              placeholder={t('profileSettings.bioPlaceholder')}
+              rows={3}
+            />
             <Button
               type="submit"
               disabled={loading}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2"
+              className="w-full"
             >
-              {loading && <ApperIcon name="Loader2" size={16} className="animate-spin" />}
-              <span>{loading ? t('common.loading') : t('profile.save_changes')}</span>
+              {loading ? t('common.saving') : t('common.save')}
             </Button>
-          </div>
-        </form>
-      </Card>
-
-      {/* Profile Preview */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-100 mb-4">
-          {t('profile.preview')}
-        </h3>
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-primary to-secondary">
-            {formData.profilePicture ? (
-              <img 
-                src={formData.profilePicture} 
-                alt="Profile Preview" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <ApperIcon name="User" size={20} className="text-white" />
-              </div>
-            )}
-          </div>
-          <div>
-            <p className="font-medium text-gray-100">
-              {formData.username || t('profile.default_username')}
-            </p>
-            <p className="text-sm text-gray-400">
-              {t('profile.member_since')}
-            </p>
-          </div>
-        </div>
-      </Card>
+          </form>
+        </Card>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileSettings;
+export default ProfileSettings

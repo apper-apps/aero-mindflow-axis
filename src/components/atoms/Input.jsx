@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { cn } from "@/utils/cn";
 
 const Input = forwardRef(({ className, type = "text", ...props }, ref) => {
@@ -12,9 +12,11 @@ const Input = forwardRef(({ className, type = "text", ...props }, ref) => {
       )}
       {...props}
     />
-  );
-});
+  )
+})
+
+Input.displayName = 'Input'
+
+export default Input
 
 Input.displayName = "Input";
-
-export default Input;
