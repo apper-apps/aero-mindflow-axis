@@ -1,16 +1,16 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
-import profileService from "@/services/api/profileService";
+import ApperIcon from "@/components/ApperIcon";
 import PremiumBadge from "@/components/molecules/PremiumBadge";
+import profileService from "@/services/api/profileService";
 
 const Sidebar = ({ isOpen, onClose, subscription }) => {
   const { t } = useTranslation();
   const [profile, setProfile] = useState(null);
   
-  useState(() => {
+  useEffect(() => {
     const userProfile = profileService.getProfile();
     setProfile(userProfile);
   }, []);
@@ -26,10 +26,10 @@ const Sidebar = ({ isOpen, onClose, subscription }) => {
     <>
       {/* Desktop Sidebar */}
       <div className="hidden lg:block w-64 bg-surface border-r border-gray-700 h-full">
-        <div className="p-6">
+<div className="p-6">
           <div className="flex items-center space-x-3 mb-8">
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-              <ApperIcon name="Brain" size={20} className="text-white" />
+              <ApperIcon name="Sun" size={20} className="text-white" />
             </div>
 <div className="flex-1">
               <div className="flex items-center gap-2">
@@ -109,10 +109,11 @@ const Sidebar = ({ isOpen, onClose, subscription }) => {
           <div className="absolute inset-0 bg-black/50" onClick={onClose} />
           <div className="absolute left-0 top-0 h-full w-64 bg-surface border-r border-gray-700 transform transition-transform duration-300">
             <div className="p-6">
-              <div className="flex items-center justify-between mb-8">
+<div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                    <ApperIcon name="Brain" size={20} className="text-white" />
+                    <ApperIcon name="Sun" size={20} className="text-white" />
+                  </div>
 <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
@@ -129,9 +130,8 @@ const Sidebar = ({ isOpen, onClose, subscription }) => {
                           <ApperIcon name="User" size={12} className="text-white" />
                         </div>
                       )}
-                    </div>
+</div>
                   )}
-                </div>
                 </div>
                 <button
                   onClick={onClose}

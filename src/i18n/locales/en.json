@@ -25,9 +25,9 @@
 "good_morning": "Good morning",
     "good_afternoon": "Good afternoon",
     "good_evening": "Good evening"
-  },
+},
   "header": {
-    "app_name": "MindFlow",
+    "app_name": "MyDay",
     "app_tagline": "Personal Growth",
     "language_toggle": "Language"
   },
