@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
 import profileService from "@/services/api/profileService";
-const Sidebar = ({ isOpen, onClose }) => {
+import PremiumBadge from "@/components/molecules/PremiumBadge";
+
+const Sidebar = ({ isOpen, onClose, subscription }) => {
   const { t } = useTranslation();
   const [profile, setProfile] = useState(null);
   
@@ -29,8 +31,11 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
               <ApperIcon name="Brain" size={20} className="text-white" />
             </div>
-<div>
-              <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+<div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+                {subscription?.plan === "premium" && <PremiumBadge size="xs" />}
+              </div>
               <p className="text-xs text-gray-400">{profile?.username ? t('header.app_tagline') : t('header.app_tagline')}</p>
             </div>
             {profile && (
@@ -76,8 +81,25 @@ const Sidebar = ({ isOpen, onClose }) => {
                   </>
                 )}
               </NavLink>
-            ))}
+))}
           </nav>
+
+          {subscription?.plan === "free" && (
+            <div className="mt-8 p-4 bg-gradient-to-r from-premium-start/10 to-premium-end/10 rounded-lg border border-premium-start/20">
+              <div className="flex items-center gap-2 mb-2">
+                <ApperIcon name="Crown" size={16} className="text-premium-start" />
+                <span className="text-sm font-medium text-gray-100">{t('subscription.upgradeSidebar')}</span>
+              </div>
+              <p className="text-xs text-gray-400 mb-3">{t('subscription.unlockFeatures')}</p>
+              <NavLink
+                to="/profile"
+                className="inline-flex items-center gap-1 text-xs text-premium-start hover:text-premium-end transition-colors"
+              >
+                {t('subscription.viewPlans')}
+                <ApperIcon name="ArrowRight" size={12} />
+              </NavLink>
+            </div>
+          )}
         </div>
       </div>
 
@@ -91,8 +113,11 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                     <ApperIcon name="Brain" size={20} className="text-white" />
-<div>
-                    <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+<div className="flex-1">
+                    <div className="flex items-center gap-2">
+                      <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+                      {subscription?.plan === "premium" && <PremiumBadge size="xs" />}
+                    </div>
                     <p className="text-xs text-gray-400">{profile?.username ? t('header.app_tagline') : t('header.app_tagline')}</p>
                   </div>
                   {profile && (
@@ -147,8 +172,25 @@ const Sidebar = ({ isOpen, onClose }) => {
                       </>
                     )}
                   </NavLink>
-                ))}
+))}
               </nav>
+
+              {subscription?.plan === "free" && (
+                <div className="mt-8 p-4 bg-gradient-to-r from-premium-start/10 to-premium-end/10 rounded-lg border border-premium-start/20">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ApperIcon name="Crown" size={16} className="text-premium-start" />
+                    <span className="text-sm font-medium text-gray-100">{t('subscription.upgradeSidebar')}</span>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-3">{t('subscription.unlockFeatures')}</p>
+                  <button
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1 text-xs text-premium-start hover:text-premium-end transition-colors"
+                  >
+                    {t('subscription.viewPlans')}
+                    <ApperIcon name="ArrowRight" size={12} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

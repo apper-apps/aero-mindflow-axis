@@ -139,5 +139,48 @@
 .floating-label.active {
   transform: translateY(-20px);
   font-size: 0.75rem;
-  color: #6B46C1;
+color: #6B46C1;
+}
+
+/* Premium subscription styles */
+.premium-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.premium-glow {
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.premium-border {
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.premium-bg {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+/* Subscription plan animations */
+@keyframes premium-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.premium-pulse {
+  animation: premium-pulse 2s ease-in-out infinite;
+}
+
+/* Upgrade prompt styles */
+.upgrade-prompt {
+  background: radial-gradient(circle at top right, rgba(102, 126, 234, 0.1), transparent 50%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.upgrade-prompt:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
 }

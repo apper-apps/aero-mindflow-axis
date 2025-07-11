@@ -176,7 +176,42 @@
     "preview": "Vorschau",
     "default_username": "MindFlow Benutzer",
     "member_since": "Mitglied seit heute",
-    "welcome": "Willkommen zurück, {{name}}!",
+"welcome": "Willkommen zurück, {{name}}!",
     "personalized_experience": "Dein personalisiertes Erlebnis"
+  },
+  "subscription": {
+    "title": "Abonnement",
+    "freePlan": "Kostenloser Plan",
+    "premiumPlan": "Premium Plan",
+    "freeDescription": "Grundfunktionen für den Einstieg",
+    "premiumDescription": "Vollzugriff auf alle Funktionen und Premium-Inhalte",
+    "perMonth": "pro Monat",
+    "forever": "für immer",
+    "upgradeToPremium": "Auf Premium upgraden",
+    "upgradeRequired": "Premium erforderlich",
+    "upgradeDescription": "Schalte diese Funktion mit einem Premium-Abonnement frei",
+    "upgradeSubtext": "Jederzeit kündbar. Keine Verpflichtungen.",
+    "upgradeSidebar": "Auf Premium upgraden",
+    "unlockFeatures": "Alle Funktionen freischalten",
+    "viewPlans": "Pläne anzeigen",
+    "manageBilling": "Abrechnung verwalten",
+    "cancel": "Kündigen",
+    "manageSubscription": "Verwalte dein Abonnement im Abrechnungsportal",
+    "cancelSubscription": "Abonnement kündigen",
+    "freeFeatures": "Kostenlose Funktionen",
+    "premiumFeatures": "Premium-Funktionen",
+    "features": {
+      "basicTracking": "Grundlegende Gewohnheits- und Zielverfolgung",
+      "limitedGoals": "Bis zu {{count}} Ziele",
+      "limitedHabits": "Bis zu {{count}} Gewohnheiten",
+      "unlimitedGoals": "Unbegrenzte Ziele",
+      "unlimitedHabits": "Unbegrenzte Gewohnheiten",
+      "advancedAnalytics": "Erweiterte Analysen & Einblicke",
+      "premiumThemes": "Premium-Themes & Anpassung",
+      "exportData": "Daten exportieren",
+      "prioritySupport": "Prioritärer Kundensupport",
+      "customCategories": "Benutzerdefinierte Kategorien",
+      "habitTemplates": "Gewohnheitsvorlagen-Bibliothek"
+    }
   }
 }

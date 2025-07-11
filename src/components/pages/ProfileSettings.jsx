@@ -6,10 +6,13 @@ import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Input from "@/components/atoms/Input";
 import FormField from "@/components/molecules/FormField";
+import PremiumBadge from "@/components/molecules/PremiumBadge";
 import profileService from "@/services/api/profileService";
+import { useSubscription } from "@/components/providers/SubscriptionProvider";
 
 function ProfileSettings() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
+  const { subscription, upgrade, isPremium, isFree } = useSubscription();
   const fileInputRef = useRef(null)
   const [profile, setProfile] = useState({
     username: '',
@@ -267,6 +270,125 @@ function ProfileSettings() {
               {loading ? t('common.saving') : t('common.save')}
             </Button>
           </form>
+</Card>
+
+        {/* Subscription Management */}
+        <Card className="p-6 lg:col-span-2">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-gray-100">
+              {t('subscription.title')}
+            </h2>
+            {isPremium && <PremiumBadge />}
+          </div>
+
+          <div className="space-y-6">
+            {/* Current Plan */}
+            <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-medium text-gray-100">
+                    {subscription?.plan === "premium" ? t('subscription.premiumPlan') : t('subscription.freePlan')}
+                  </h3>
+                  {isPremium && <ApperIcon name="Crown" size={16} className="text-premium-start" />}
+                </div>
+                <p className="text-sm text-gray-400">
+                  {subscription?.plan === "premium" 
+                    ? t('subscription.premiumDescription') 
+                    : t('subscription.freeDescription')}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-lg font-bold text-gray-100">
+                  {subscription?.plan === "premium" ? "$9.99" : "$0"}
+                </p>
+                <p className="text-sm text-gray-400">
+                  {subscription?.plan === "premium" ? t('subscription.perMonth') : t('subscription.forever')}
+                </p>
+              </div>
+            </div>
+
+            {/* Plan Features */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {isFree && (
+                <div className="p-4 bg-gray-800/30 rounded-lg border border-gray-700">
+                  <h4 className="font-medium text-gray-100 mb-3">{t('subscription.freeFeatures')}</h4>
+                  <ul className="space-y-2 text-sm text-gray-400">
+                    <li className="flex items-center gap-2">
+                      <ApperIcon name="Check" size={14} className="text-success" />
+                      {t('subscription.features.basicTracking')}
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <ApperIcon name="Check" size={14} className="text-success" />
+                      {t('subscription.features.limitedGoals', { count: 3 })}
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <ApperIcon name="Check" size={14} className="text-success" />
+                      {t('subscription.features.limitedHabits', { count: 5 })}
+                    </li>
+                  </ul>
+                </div>
+              )}
+
+              <div className="p-4 bg-gradient-to-r from-premium-start/10 to-premium-end/10 rounded-lg border border-premium-start/20">
+                <h4 className="font-medium text-gray-100 mb-3 flex items-center gap-2">
+                  <ApperIcon name="Crown" size={16} className="text-premium-start" />
+                  {t('subscription.premiumFeatures')}
+                </h4>
+                <ul className="space-y-2 text-sm text-gray-400">
+                  <li className="flex items-center gap-2">
+                    <ApperIcon name="Check" size={14} className="text-premium-start" />
+                    {t('subscription.features.unlimitedGoals')}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ApperIcon name="Check" size={14} className="text-premium-start" />
+                    {t('subscription.features.unlimitedHabits')}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ApperIcon name="Check" size={14} className="text-premium-start" />
+                    {t('subscription.features.advancedAnalytics')}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ApperIcon name="Check" size={14} className="text-premium-start" />
+                    {t('subscription.features.premiumThemes')}
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <ApperIcon name="Check" size={14} className="text-premium-start" />
+                    {t('subscription.features.exportData')}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              {isFree ? (
+                <Button
+                  onClick={() => upgrade("premium")}
+                  className="bg-gradient-to-r from-premium-start to-premium-end hover:from-premium-start/80 hover:to-premium-end/80"
+                  disabled={loading}
+                >
+                  <ApperIcon name="Crown" size={16} className="mr-2" />
+                  {t('subscription.upgradeToPremium')}
+                </Button>
+              ) : (
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => toast.info(t('subscription.manageSubscription'))}
+                  >
+                    <ApperIcon name="Settings" size={16} className="mr-2" />
+                    {t('subscription.manageBilling')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => toast.info(t('subscription.cancelSubscription'))}
+                  >
+                    {t('subscription.cancel')}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
         </Card>
       </div>
     </div>

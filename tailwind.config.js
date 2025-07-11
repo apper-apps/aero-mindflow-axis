@@ -5,7 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
+extend: {
       colors: {
         primary: "#6B46C1",
         secondary: "#EC4899",
@@ -16,6 +16,12 @@ export default {
         warning: "#F59E0B",
         error: "#EF4444",
         info: "#3B82F6",
+        premium: {
+          start: "#667eea",
+          end: "#764ba2",
+          light: "#8b9cf9",
+          dark: "#5a67d8"
+        }
       },
       fontFamily: {
         'display': ['Plus Jakarta Sans', 'sans-serif'],

@@ -176,7 +176,42 @@
     "preview": "Preview",
     "default_username": "MindFlow User",
     "member_since": "Member since today",
-    "welcome": "Welcome back, {{name}}!",
+"welcome": "Welcome back, {{name}}!",
     "personalized_experience": "Your personalized experience"
+  },
+  "subscription": {
+    "title": "Subscription",
+    "freePlan": "Free Plan",
+    "premiumPlan": "Premium Plan",
+    "freeDescription": "Basic features to get you started",
+    "premiumDescription": "Full access to all features and premium content",
+    "perMonth": "per month",
+    "forever": "forever",
+    "upgradeToPremium": "Upgrade to Premium",
+    "upgradeRequired": "Premium Required",
+    "upgradeDescription": "Unlock this feature with a Premium subscription",
+    "upgradeSubtext": "Cancel anytime. No commitments.",
+    "upgradeSidebar": "Upgrade to Premium",
+    "unlockFeatures": "Unlock all features",
+    "viewPlans": "View Plans",
+    "manageBilling": "Manage Billing",
+    "cancel": "Cancel",
+    "manageSubscription": "Manage your subscription in the billing portal",
+    "cancelSubscription": "Cancel your subscription",
+    "freeFeatures": "Free Features",
+    "premiumFeatures": "Premium Features",
+    "features": {
+      "basicTracking": "Basic habit & goal tracking",
+      "limitedGoals": "Up to {{count}} goals",
+      "limitedHabits": "Up to {{count}} habits",
+      "unlimitedGoals": "Unlimited goals",
+      "unlimitedHabits": "Unlimited habits",
+      "advancedAnalytics": "Advanced analytics & insights",
+      "premiumThemes": "Premium themes & customization",
+      "exportData": "Export your data",
+      "prioritySupport": "Priority customer support",
+      "customCategories": "Custom categories",
+      "habitTemplates": "Habit templates library"
+    }
   }
 }

@@ -9,11 +9,14 @@ import Journal from "@/components/pages/Journal";
 import Goals from "@/components/pages/Goals";
 import Calendar from "@/components/pages/Calendar";
 import ProfileSettings from "@/components/pages/ProfileSettings";
+import SubscriptionProvider from "@/components/providers/SubscriptionProvider";
+
 function App() {
-  return (
+return (
     <I18nextProvider i18n={i18n}>
-      <div className="min-h-screen bg-background text-gray-100">
-        <Layout>
+      <SubscriptionProvider>
+        <div className="min-h-screen bg-background text-gray-100">
+          <Layout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/habits" element={<Habits />} />
@@ -21,9 +24,9 @@ function App() {
             <Route path="/goals" element={<Goals />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/profile" element={<ProfileSettings />} />
-          </Routes>
-        </Layout>
-        <ToastContainer
+</Routes>
+          </Layout>
+          <ToastContainer
           position="top-right"
           autoClose={3000}
           hideProgressBar={false}
@@ -35,8 +38,9 @@ function App() {
           pauseOnHover
           theme="dark"
           style={{ zIndex: 9999 }}
-        />
-      </div>
+/>
+        </div>
+      </SubscriptionProvider>
     </I18nextProvider>
   );
 }
