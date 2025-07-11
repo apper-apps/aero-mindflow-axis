@@ -32,10 +32,10 @@
     "language_toggle": "Sprache"
   },
   "dashboard": {
-    "welcome": "Willkommen zurück! 👋",
+"welcome": "Willkommen zurück! 👋",
     "todays_progress": "Heutiger Fortschritt",
     "active_habits": "Aktive Gewohnheiten",
-    "total_streaks": "Gesamtsträhnen",
+    "total_streaks": "Gesamtaktivitäten",
     "journal_entries": "Tagebucheinträge",
     "todays_habits": "Heutige Gewohnheiten",
     "add_habit": "Gewohnheit hinzufügen",
