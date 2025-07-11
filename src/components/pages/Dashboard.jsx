@@ -4,7 +4,7 @@ import { useHabits } from "@/hooks/useHabits";
 import { useJournal } from "@/hooks/useJournal";
 import { useGoals } from "@/hooks/useGoals";
 import { format } from "date-fns";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import Error from "@/components/ui/Error";
@@ -14,17 +14,37 @@ import HabitCard from "@/components/molecules/HabitCard";
 import ProgressRing from "@/components/molecules/ProgressRing";
 import GoalCard from "@/components/molecules/GoalCard";
 import StatCard from "@/components/molecules/StatCard";
+import quotesService from "@/services/api/quotesService";
 const Dashboard = () => {
   const { t } = useTranslation();
   const { habits, loading: habitsLoading, error: habitsError, toggleHabit } = useHabits();
   const { entries, loading: journalLoading, error: journalError } = useJournal();
   const { goals, loading: goalsLoading, error: goalsError } = useGoals();
+  
+  const [dailyQuote, setDailyQuote] = useState(null);
+  const [quoteLoading, setQuoteLoading] = useState(true);
+  const [quoteError, setQuoteError] = useState(null);
 
-  if (habitsLoading || journalLoading || goalsLoading) {
+  useEffect(() => {
+    const fetchDailyQuote = async () => {
+      try {
+        const quote = await quotesService.getDailyQuote();
+        setDailyQuote(quote);
+      } catch (error) {
+        setQuoteError(error.message);
+      } finally {
+        setQuoteLoading(false);
+      }
+    };
+
+    fetchDailyQuote();
+  }, []);
+
+  if (habitsLoading || journalLoading || goalsLoading || quoteLoading) {
     return <Loading type="stats" />;
   }
 
-  if (habitsError || journalError || goalsError) {
+  if (habitsError || journalError || goalsError || quoteError) {
     return <Error message="Failed to load dashboard data" />;
   }
 
@@ -57,24 +77,33 @@ const Dashboard = () => {
     return sum + streak;
   }, 0);
 
-  return (
+return (
     <div className="space-y-8">
-      {/* Welcome Section */}
+      {/* Daily Quote Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 border border-primary/20"
       >
-<div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-100 mb-2">
-              {t('dashboard.welcome')}
-            </h1>
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-3">
+              <ApperIcon name="Quote" size={24} className="text-primary" />
+              <span className="text-sm font-medium text-primary capitalize">
+                {dailyQuote?.category}
+              </span>
+            </div>
+            <blockquote className="text-2xl md:text-3xl font-bold text-gray-100 mb-3 leading-relaxed">
+              "{dailyQuote?.text}"
+            </blockquote>
             <p className="text-gray-400 text-lg">
+              — {dailyQuote?.author}
+            </p>
+            <p className="text-gray-500 text-sm mt-2">
               {format(new Date(), "EEEE, MMMM d, yyyy")}
             </p>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block ml-6">
             <ProgressRing progress={completionRate} size={100} />
           </div>
         </div>
