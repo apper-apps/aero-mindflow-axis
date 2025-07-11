@@ -1,16 +1,17 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
-
 const Sidebar = ({ isOpen, onClose }) => {
+  const { t } = useTranslation();
+  
   const navItems = [
-    { path: "/", icon: "Home", label: "Dashboard" },
-    { path: "/habits", icon: "CheckSquare", label: "Habits" },
-    { path: "/journal", icon: "BookOpen", label: "Journal" },
-    { path: "/goals", icon: "Target", label: "Goals" },
-    { path: "/calendar", icon: "Calendar", label: "Calendar" },
+    { path: "/", icon: "Home", label: t('nav.dashboard') },
+    { path: "/habits", icon: "CheckSquare", label: t('nav.habits') },
+    { path: "/journal", icon: "BookOpen", label: t('nav.journal') },
+    { path: "/goals", icon: "Target", label: t('nav.goals') },
+    { path: "/calendar", icon: "Calendar", label: t('nav.calendar') },
   ];
-
   return (
     <>
       {/* Desktop Sidebar */}
@@ -20,9 +21,9 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
               <ApperIcon name="Brain" size={20} className="text-white" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-100">MindFlow</h1>
-              <p className="text-xs text-gray-400">Personal Growth</p>
+<div>
+              <h1 className="text-xl font-bold text-gray-100">{t('header.app_name')}</h1>
+              <p className="text-xs text-gray-400">{t('header.app_tagline')}</p>
             </div>
           </div>
           
@@ -71,11 +72,11 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                     <ApperIcon name="Brain" size={20} className="text-white" />
+<div>
+                    <h1 className="text-xl font-bold text-gray-100">{t('header.app_name')}</h1>
+                    <p className="text-xs text-gray-400">{t('header.app_tagline')}</p>
                   </div>
-                  <div>
-                    <h1 className="text-xl font-bold text-gray-100">MindFlow</h1>
-                    <p className="text-xs text-gray-400">Personal Growth</p>
-                  </div>
+                </div>
                 </div>
                 <button
                   onClick={onClose}

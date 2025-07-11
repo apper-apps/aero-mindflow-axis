@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useGoals } from "@/hooks/useGoals";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -9,8 +10,8 @@ import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import FormField from "@/components/molecules/FormField";
 import ApperIcon from "@/components/ApperIcon";
-
 const Goals = () => {
+  const { t } = useTranslation();
   const { goals, loading, error, createGoal, updateGoal, deleteGoal, refetch } = useGoals();
   const [showForm, setShowForm] = useState(false);
   const [editingGoal, setEditingGoal] = useState(null);
@@ -79,11 +80,11 @@ const Goals = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-100">Goals</h1>
+          <h1 className="text-3xl font-bold text-gray-100">{t('goals.title')}</h1>
           <p className="text-gray-400 mt-1">
-            Visualize your dreams and manifest your future
+            {t('goals.subtitle')}
           </p>
         </div>
         <Button
@@ -91,7 +92,7 @@ const Goals = () => {
           onClick={() => setShowForm(true)}
         >
           <ApperIcon name="Plus" size={16} className="mr-2" />
-          Add Goal
+          {t('goals.add_goal')}
         </Button>
       </div>
 
@@ -101,11 +102,11 @@ const Goals = () => {
         animate={{ opacity: 1, y: 0 }}
         className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 border border-primary/20"
       >
-        <blockquote className="text-center">
+<blockquote className="text-center">
           <p className="text-lg text-gray-100 italic mb-2">
-            "A goal is a dream with a deadline."
+            "{t('goals.quote')}"
           </p>
-          <cite className="text-sm text-gray-400">— Napoleon Hill</cite>
+          <cite className="text-sm text-gray-400">{t('goals.quote_author')}</cite>
         </blockquote>
       </motion.div>
 
@@ -116,54 +117,50 @@ const Goals = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
         >
-          <Card className="p-6">
+<Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">
-              {editingGoal ? "Edit Goal" : "Create New Goal"}
+              {editingGoal ? t('goals.edit_goal') : t('goals.create_new')}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <FormField
-                label="Goal Title"
+<FormField
+                label={t('goals.goal_title')}
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="e.g., Complete Marathon"
+                placeholder={t('goals.goal_title_placeholder')}
                 required
               />
               
-              <FormField
-                label="Description"
+<FormField
+                label={t('goals.description')}
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Describe your goal in detail..."
+                placeholder={t('goals.description_placeholder')}
                 multiline
                 rows={4}
               />
-              
-              <FormField
-                label="Image URL"
+<FormField
+                label={t('goals.image_url')}
                 value={formData.imageUrl}
                 onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                placeholder="https://example.com/image.jpg"
+                placeholder={t('goals.image_url_placeholder')}
               />
-              
-              <FormField
-                label="Affirmation"
+<FormField
+                label={t('goals.affirmation')}
                 value={formData.affirmation}
                 onChange={(e) => setFormData({ ...formData, affirmation: e.target.value })}
-                placeholder="I am capable of achieving this goal..."
+                placeholder={t('goals.affirmation_placeholder')}
                 multiline
                 rows={3}
               />
-              
-              <FormField
-                label="Target Date"
+<FormField
+                label={t('goals.target_date')}
                 type="date"
                 value={formData.targetDate}
                 onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
               />
-              
-              <div className="flex items-center space-x-4 pt-4">
+<div className="flex items-center space-x-4 pt-4">
                 <Button type="submit" variant="primary">
-                  {editingGoal ? "Update Goal" : "Create Goal"}
+                  {editingGoal ? t('goals.update_goal') : t('goals.create_goal')}
                 </Button>
                 <Button
                   type="button"
@@ -179,8 +176,8 @@ const Goals = () => {
                       targetDate: ""
                     });
                   }}
-                >
-                  Cancel
+>
+                  {t('common.cancel')}
                 </Button>
               </div>
             </form>
@@ -190,10 +187,10 @@ const Goals = () => {
 
       {/* Goals Grid */}
       {goals.length === 0 ? (
-        <Empty
-          title="No goals yet"
-          description="Create your first goal and start manifesting your dreams. Visualize your success and make it happen."
-          action="Create Your First Goal"
+<Empty
+          title={t('goals.no_goals')}
+          description={t('goals.no_goals_desc')}
+          action={t('goals.create_first')}
           onAction={() => setShowForm(true)}
           icon="Target"
         />

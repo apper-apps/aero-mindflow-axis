@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "dashboard": "Übersicht",
+    "habits": "Gewohnheiten",
+    "journal": "Tagebuch",
+    "goals": "Ziele",
+    "calendar": "Kalender"
+  },
+  "common": {
+    "add": "Hinzufügen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "update": "Aktualisieren",
+    "create": "Erstellen",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "retry": "Erneut versuchen",
+    "active": "Aktiv",
+    "all": "Alle",
+    "morning": "Morgen",
+    "evening": "Abend",
+    "good_morning": "Guten Morgen",
+    "good_afternoon": "Guten Tag",
+    "good_evening": "Guten Abend"
+  },
+  "header": {
+    "app_name": "MindFlow",
+    "app_tagline": "Persönliches Wachstum",
+    "language_toggle": "Sprache"
+  },
+  "dashboard": {
+    "welcome": "Willkommen zurück! 👋",
+    "todays_progress": "Heutiger Fortschritt",
+    "active_habits": "Aktive Gewohnheiten",
+    "total_streaks": "Gesamtsträhnen",
+    "journal_entries": "Tagebucheinträge",
+    "todays_habits": "Heutige Gewohnheiten",
+    "add_habit": "Gewohnheit hinzufügen",
+    "recent_journal": "Neueste Tagebucheinträge",
+    "active_goals": "Aktive Ziele",
+    "view_all": "Alle anzeigen"
+  },
+  "habits": {
+    "title": "Gewohnheiten",
+    "subtitle": "Baue Beständigkeit auf und verfolge deinen täglichen Fortschritt",
+    "add_habit": "Gewohnheit hinzufügen",
+    "create_new": "Neue Gewohnheit erstellen",
+    "edit_habit": "Gewohnheit bearbeiten",
+    "habit_name": "Gewohnheitsname",
+    "habit_name_placeholder": "z.B. Morgenmeditation",
+    "description": "Beschreibung",
+    "description_placeholder": "Kurze Beschreibung deiner Gewohnheit",
+    "category": "Kategorie",
+    "frequency": "Häufigkeit",
+    "create_habit": "Gewohnheit erstellen",
+    "update_habit": "Gewohnheit aktualisieren",
+    "delete_confirm": "Bist du sicher, dass du diese Gewohnheit löschen möchtest?",
+    "no_habits": "Noch keine Gewohnheiten",
+    "no_habits_desc": "Beginne mit dem Aufbau besserer Gewohnheiten, indem du deine erste erstellst. Beständigkeit ist der Schlüssel zum Erreichen deiner Ziele.",
+    "add_first": "Füge deine erste Gewohnheit hinzu",
+    "categories": {
+      "wellness": "Wohlbefinden",
+      "health": "Gesundheit",
+      "learning": "Lernen",
+      "productivity": "Produktivität",
+      "creativity": "Kreativität"
+    },
+    "frequencies": {
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "monthly": "Monatlich"
+    }
+  },
+  "journal": {
+    "title": "Tagebuch",
+    "subtitle": "Reflektiere über deinen Tag und plane für morgen",
+    "new_entry": "Neuer Eintrag",
+    "morning_planning": "Morgenplanung",
+    "evening_reflection": "Abendreflexion",
+    "new_journal_entry": "Neuer Tagebucheintrag",
+    "edit_entry": "Eintrag bearbeiten",
+    "entry_type": "Eintragsart",
+    "mood": "Stimmung",
+    "content": "Inhalt",
+    "morning_placeholder": "Was sind deine Absichten für heute? Worauf möchtest du dich konzentrieren?",
+    "evening_placeholder": "Wie war dein Tag? Was hast du erreicht? Wofür bist du dankbar?",
+    "tags": "Tags (durch Komma getrennt)",
+    "tags_placeholder": "z.B. Produktivität, Dankbarkeit, Ziele",
+    "save_entry": "Eintrag speichern",
+    "update_entry": "Eintrag aktualisieren",
+    "delete_confirm": "Bist du sicher, dass du diesen Tagebucheintrag löschen möchtest?",
+    "no_entries": "Noch keine Tagebucheinträge",
+    "no_entries_desc": "Beginne deine Tagebuchreise, indem du deinen ersten Eintrag schreibst. Reflektiere über deinen Tag und plane für morgen.",
+    "write_first": "Schreibe deinen ersten Eintrag",
+    "mood_labels": {
+      "1": "Sehr schlecht",
+      "2": "Schlecht",
+      "3": "Okay",
+      "4": "Gut",
+      "5": "Ausgezeichnet"
+    }
+  },
+  "goals": {
+    "title": "Ziele",
+    "subtitle": "Visualisiere deine Träume und manifestiere deine Zukunft",
+    "add_goal": "Ziel hinzufügen",
+    "quote": "Ein Ziel ist ein Traum mit einer Frist.",
+    "quote_author": "— Napoleon Hill",
+    "create_new": "Neues Ziel erstellen",
+    "edit_goal": "Ziel bearbeiten",
+    "goal_title": "Zieltitel",
+    "goal_title_placeholder": "z.B. Marathon absolvieren",
+    "description": "Beschreibung",
+    "description_placeholder": "Beschreibe dein Ziel im Detail...",
+    "image_url": "Bild-URL",
+    "image_url_placeholder": "https://example.com/image.jpg",
+    "affirmation": "Affirmation",
+    "affirmation_placeholder": "Ich bin fähig, dieses Ziel zu erreichen...",
+    "target_date": "Zieldatum",
+    "create_goal": "Ziel erstellen",
+    "update_goal": "Ziel aktualisieren",
+    "delete_confirm": "Bist du sicher, dass du dieses Ziel löschen möchtest?",
+    "no_goals": "Noch keine Ziele",
+    "no_goals_desc": "Erstelle dein erstes Ziel und beginne deine Träume zu manifestieren. Visualisiere deinen Erfolg und mache es wahr.",
+    "create_first": "Erstelle dein erstes Ziel"
+  },
+  "calendar": {
+    "title": "Kalender",
+    "subtitle": "Verfolge deinen Fortschritt und deine Muster über die Zeit",
+    "habits": "Gewohnheiten",
+    "journal": "Tagebuch",
+    "all_habits_completed": "Alle Gewohnheiten abgeschlossen",
+    "journal_entry": "Tagebucheintrag",
+    "no_habits_completed": "Keine Gewohnheiten abgeschlossen",
+    "no_journal_entries": "Keine Tagebucheinträge",
+    "days": {
+      "sun": "So",
+      "mon": "Mo",
+      "tue": "Di",
+      "wed": "Mi",
+      "thu": "Do",
+      "fri": "Fr",
+      "sat": "Sa"
+    }
+  },
+  "empty": {
+    "no_data": "Keine Daten verfügbar",
+    "try_again": "Erneut versuchen"
+  },
+  "error": {
+    "general": "Etwas ist schiefgelaufen",
+    "network": "Netzwerkfehler",
+    "not_found": "Nicht gefunden"
+  }
+}

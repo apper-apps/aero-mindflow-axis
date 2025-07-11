@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useHabits } from "@/hooks/useHabits";
 import { useJournal } from "@/hooks/useJournal";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
+import { addMonths, eachDayOfInterval, endOfMonth, format, isSameDay, isSameMonth, startOfMonth, subMonths } from "date-fns";
 import ApperIcon from "@/components/ApperIcon";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from "date-fns";
-
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 const Calendar = () => {
+  const { t } = useTranslation();
   const { habits, loading: habitsLoading, error: habitsError } = useHabits();
   const { entries, loading: journalLoading, error: journalError } = useJournal();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -63,11 +64,11 @@ const Calendar = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-100">Calendar</h1>
+          <h1 className="text-3xl font-bold text-gray-100">{t('calendar.title')}</h1>
           <p className="text-gray-400 mt-1">
-            Track your progress and patterns over time
+            {t('calendar.subtitle')}
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -98,15 +99,14 @@ const Calendar = () => {
           animate={{ opacity: 1, x: 0 }}
           className="lg:col-span-2"
         >
-          <Card className="p-6">
+<Card className="p-6">
             <div className="grid grid-cols-7 gap-2 mb-4">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
+              {[t('calendar.days.sun'), t('calendar.days.mon'), t('calendar.days.tue'), t('calendar.days.wed'), t('calendar.days.thu'), t('calendar.days.fri'), t('calendar.days.sat')].map(day => (
                 <div key={day} className="text-center text-sm font-medium text-gray-400 py-2">
                   {day}
                 </div>
               ))}
             </div>
-            
             <div className="grid grid-cols-7 gap-2">
               {daysInMonth.map((day, index) => {
                 const stats = getDateStats(day);
@@ -152,14 +152,14 @@ const Calendar = () => {
             </div>
             
             {/* Legend */}
-            <div className="flex items-center justify-center space-x-6 mt-6 text-sm text-gray-400">
+<div className="flex items-center justify-center space-x-6 mt-6 text-sm text-gray-400">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-success"></div>
-                <span>All habits completed</span>
+                <span>{t('calendar.all_habits_completed')}</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-secondary"></div>
-                <span>Journal entry</span>
+                <span>{t('calendar.journal_entry')}</span>
               </div>
             </div>
           </Card>
@@ -178,24 +178,23 @@ const Calendar = () => {
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center">
-                <p className="text-2xl font-bold text-success">
+<p className="text-2xl font-bold text-success">
                   {selectedDateStats.completedHabits}
                 </p>
-                <p className="text-sm text-gray-400">Habits</p>
+                <p className="text-sm text-gray-400">{t('calendar.habits')}</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-secondary">
                   {selectedDateStats.journalCount}
                 </p>
-                <p className="text-sm text-gray-400">Journal</p>
+                <p className="text-sm text-gray-400">{t('calendar.journal')}</p>
               </div>
-            </div>
           </Card>
 
           {/* Habits for Selected Date */}
-          <Card className="p-4">
+<Card className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold text-gray-100">Habits</h4>
+              <h4 className="font-semibold text-gray-100">{t('calendar.habits')}</h4>
               <Badge variant="success">
                 {selectedDateStats.completedHabits}/{selectedDateStats.totalHabits}
               </Badge>
@@ -209,16 +208,16 @@ const Calendar = () => {
                     <span className="text-sm text-gray-300">{habit.name}</span>
                   </div>
                 ))}
-              </div>
+</div>
             ) : (
-              <p className="text-sm text-gray-400">No habits completed</p>
+              <p className="text-sm text-gray-400">{t('calendar.no_habits_completed')}</p>
             )}
           </Card>
 
           {/* Journal for Selected Date */}
-          <Card className="p-4">
+<Card className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold text-gray-100">Journal</h4>
+              <h4 className="font-semibold text-gray-100">{t('calendar.journal')}</h4>
               <Badge variant="secondary">
                 {selectedDateStats.journalCount}
               </Badge>
@@ -246,9 +245,9 @@ const Calendar = () => {
                     </p>
                   </div>
                 ))}
-              </div>
+</div>
             ) : (
-              <p className="text-sm text-gray-400">No journal entries</p>
+              <p className="text-sm text-gray-400">{t('calendar.no_journal_entries')}</p>
             )}
           </Card>
         </motion.div>

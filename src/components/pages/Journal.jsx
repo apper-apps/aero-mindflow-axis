@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useJournal } from "@/hooks/useJournal";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -11,8 +12,8 @@ import FormField from "@/components/molecules/FormField";
 import Badge from "@/components/atoms/Badge";
 import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
-
 const Journal = () => {
+  const { t } = useTranslation();
   const { entries, loading, error, createEntry, updateEntry, deleteEntry, refetch } = useJournal();
   const [showForm, setShowForm] = useState(false);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -92,11 +93,11 @@ const Journal = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-100">Journal</h1>
+          <h1 className="text-3xl font-bold text-gray-100">{t('journal.title')}</h1>
           <p className="text-gray-400 mt-1">
-            Reflect on your day and plan for tomorrow
+            {t('journal.subtitle')}
           </p>
         </div>
         <Button
@@ -104,7 +105,7 @@ const Journal = () => {
           onClick={() => setShowForm(true)}
         >
           <ApperIcon name="Plus" size={16} className="mr-2" />
-          New Entry
+          {t('journal.new_entry')}
         </Button>
       </div>
 
@@ -116,9 +117,9 @@ const Journal = () => {
             setFormData({ ...formData, type: "morning" });
             setShowForm(true);
           }}
-        >
+>
           <ApperIcon name="Sunrise" size={16} className="mr-2" />
-          Morning Planning
+          {t('journal.morning_planning')}
         </Button>
         <Button
           variant={formData.type === "evening" ? "primary" : "secondary"}
@@ -128,7 +129,7 @@ const Journal = () => {
           }}
         >
           <ApperIcon name="Moon" size={16} className="mr-2" />
-          Evening Reflection
+          {t('journal.evening_reflection')}
         </Button>
       </div>
 
@@ -139,29 +140,28 @@ const Journal = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
         >
-          <Card className="p-6">
+<Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">
-              {editingEntry ? "Edit Entry" : "New Journal Entry"}
+              {editingEntry ? t('journal.edit_entry') : t('journal.new_journal_entry')}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+<div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Entry Type
+                    {t('journal.entry_type')}
                   </label>
                   <select
                     value={formData.type}
                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    className="w-full px-3 py-2 bg-surface border border-gray-600 rounded-lg text-gray-100 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
-                  >
-                    <option value="morning">Morning Planning</option>
-                    <option value="evening">Evening Reflection</option>
+>
+                    <option value="morning">{t('journal.morning_planning')}</option>
+                    <option value="evening">{t('journal.evening_reflection')}</option>
                   </select>
                 </div>
                 
-                <div>
+<div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Mood (1-5)
+                    {t('journal.mood')} (1-5)
                   </label>
                   <div className="flex items-center space-x-3">
                     <input
@@ -172,37 +172,37 @@ const Journal = () => {
                       onChange={(e) => setFormData({ ...formData, mood: parseInt(e.target.value) })}
                       className="flex-1"
                     />
-                    <span className="text-sm text-gray-300 min-w-[80px]">
-                      {moodLabels[formData.mood]}
+<span className="text-sm text-gray-300 min-w-[80px]">
+                      {t(`journal.mood_labels.${formData.mood}`)}
                     </span>
                   </div>
                 </div>
               </div>
               
-              <FormField
-                label="Content"
+<FormField
+                label={t('journal.content')}
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                placeholder={
+placeholder={
                   formData.type === "morning" 
-                    ? "What are your intentions for today? What do you want to focus on?"
-                    : "How was your day? What did you accomplish? What are you grateful for?"
+                    ? t('journal.morning_placeholder')
+                    : t('journal.evening_placeholder')
                 }
                 multiline
                 rows={6}
                 required
               />
               
-              <FormField
-                label="Tags (comma-separated)"
+<FormField
+                label={t('journal.tags')}
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                placeholder="e.g., productivity, gratitude, goals"
+                placeholder={t('journal.tags_placeholder')}
               />
               
               <div className="flex items-center space-x-4 pt-4">
-                <Button type="submit" variant="primary">
-                  {editingEntry ? "Update Entry" : "Save Entry"}
+<Button type="submit" variant="primary">
+                  {editingEntry ? t('journal.update_entry') : t('journal.save_entry')}
                 </Button>
                 <Button
                   type="button"
@@ -217,8 +217,8 @@ const Journal = () => {
                       tags: ""
                     });
                   }}
-                >
-                  Cancel
+>
+                  {t('common.cancel')}
                 </Button>
               </div>
             </form>
@@ -235,8 +235,8 @@ const Journal = () => {
               ? "bg-primary text-white"
               : "bg-surface text-gray-300 hover:text-white"
           }`}
-        >
-          All ({entries.length})
+>
+          {t('common.all')} ({entries.length})
         </button>
         <button
           onClick={() => setFilterType("morning")}
@@ -245,8 +245,8 @@ const Journal = () => {
               ? "bg-accent text-white"
               : "bg-surface text-gray-300 hover:text-white"
           }`}
-        >
-          Morning ({entries.filter(e => e.type === "morning").length})
+>
+          {t('common.morning')} ({entries.filter(e => e.type === "morning").length})
         </button>
         <button
           onClick={() => setFilterType("evening")}
@@ -255,17 +255,17 @@ const Journal = () => {
               ? "bg-secondary text-white"
               : "bg-surface text-gray-300 hover:text-white"
           }`}
-        >
-          Evening ({entries.filter(e => e.type === "evening").length})
+>
+          {t('common.evening')} ({entries.filter(e => e.type === "evening").length})
         </button>
       </div>
 
       {/* Entries List */}
       {filteredEntries.length === 0 ? (
-        <Empty
-          title="No journal entries yet"
-          description="Start your journaling journey by writing your first entry. Reflect on your day and plan for tomorrow."
-          action="Write Your First Entry"
+<Empty
+          title={t('journal.no_entries')}
+          description={t('journal.no_entries_desc')}
+          action={t('journal.write_first')}
           onAction={() => setShowForm(true)}
           icon="BookOpen"
         />

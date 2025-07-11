@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { useHabits } from "@/hooks/useHabits";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
@@ -11,8 +12,8 @@ import FormField from "@/components/molecules/FormField";
 import Badge from "@/components/atoms/Badge";
 import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
-
 const Habits = () => {
+  const { t } = useTranslation();
   const { habits, loading, error, toggleHabit, createHabit, updateHabit, deleteHabit, refetch } = useHabits();
   const [showForm, setShowForm] = useState(false);
   const [editingHabit, setEditingHabit] = useState(null);
@@ -77,11 +78,11 @@ const Habits = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-100">Habits</h1>
+          <h1 className="text-3xl font-bold text-gray-100">{t('habits.title')}</h1>
           <p className="text-gray-400 mt-1">
-            Build consistency and track your daily progress
+            {t('habits.subtitle')}
           </p>
         </div>
         <Button
@@ -89,10 +90,9 @@ const Habits = () => {
           onClick={() => setShowForm(true)}
         >
           <ApperIcon name="Plus" size={16} className="mr-2" />
-          Add Habit
+          {t('habits.add_habit')}
         </Button>
       </div>
-
       {/* Create/Edit Form */}
       {showForm && (
         <motion.div
@@ -100,31 +100,30 @@ const Habits = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
         >
-          <Card className="p-6">
+<Card className="p-6">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">
-              {editingHabit ? "Edit Habit" : "Create New Habit"}
+              {editingHabit ? t('habits.edit_habit') : t('habits.create_new')}
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <FormField
-                label="Habit Name"
+<FormField
+                label={t('habits.habit_name')}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="e.g., Morning Meditation"
+                placeholder={t('habits.habit_name_placeholder')}
                 required
               />
               
               <FormField
-                label="Description"
+                label={t('habits.description')}
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Brief description of your habit"
+                placeholder={t('habits.description_placeholder')}
                 multiline
               />
-              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+<div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Category
+                    {t('habits.category')}
                   </label>
                   <select
                     value={formData.category}
@@ -139,9 +138,9 @@ const Habits = () => {
                   </select>
                 </div>
                 
-                <div>
+<div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Frequency
+                    {t('habits.frequency')}
                   </label>
                   <select
                     value={formData.frequency}
@@ -157,9 +156,9 @@ const Habits = () => {
                 </div>
               </div>
               
-              <div className="flex items-center space-x-4 pt-4">
+<div className="flex items-center space-x-4 pt-4">
                 <Button type="submit" variant="primary">
-                  {editingHabit ? "Update Habit" : "Create Habit"}
+                  {editingHabit ? t('habits.update_habit') : t('habits.create_habit')}
                 </Button>
                 <Button
                   type="button"
@@ -174,8 +173,8 @@ const Habits = () => {
                       frequency: "daily"
                     });
                   }}
-                >
-                  Cancel
+>
+                  {t('common.cancel')}
                 </Button>
               </div>
             </form>
@@ -185,10 +184,10 @@ const Habits = () => {
 
       {/* Habits Grid */}
       {habits.length === 0 ? (
-        <Empty
-          title="No habits yet"
-          description="Start building better habits by creating your first one. Consistency is key to achieving your goals."
-          action="Add Your First Habit"
+<Empty
+          title={t('habits.no_habits')}
+          description={t('habits.no_habits_desc')}
+          action={t('habits.add_first')}
           onAction={() => setShowForm(true)}
           icon="Target"
         />
