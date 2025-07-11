@@ -1,12 +1,16 @@
-import { useState } from "react";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useState } from "react";
 import { format } from "date-fns";
-
+import { useHabits } from "@/hooks/useHabits";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Habits from "@/components/pages/Habits";
 const GoalCard = ({ goal, onEdit, onDelete }) => {
   const [showActions, setShowActions] = useState(false);
-
+  const { habits } = useHabits();
+  const linkedHabits = goal.linkedHabits 
+    ? habits.filter(habit => goal.linkedHabits.includes(habit.Id))
+    : [];
   return (
     <Card
       className="overflow-hidden hover:scale-[1.02] transition-all duration-300 group"
@@ -57,6 +61,23 @@ const GoalCard = ({ goal, onEdit, onDelete }) => {
             <p className="text-sm text-gray-300 italic text-center">
               "{goal.affirmation}"
             </p>
+          </div>
+        )}
+        
+{linkedHabits.length > 0 && (
+          <div className="mb-3">
+            <p className="text-xs text-gray-400 mb-2">Linked Habits:</p>
+            <div className="flex flex-wrap gap-1">
+              {linkedHabits.map((habit) => (
+                <span
+                  key={habit.Id}
+                  className="inline-flex items-center px-2 py-1 bg-primary/20 text-primary text-xs rounded-full"
+                >
+                  <ApperIcon name="CheckCircle" size={12} className="mr-1" />
+                  {habit.title}
+                </span>
+              ))}
+            </div>
           </div>
         )}
         

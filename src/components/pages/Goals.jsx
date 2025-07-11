@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useGoals } from "@/hooks/useGoals";
+import { useHabits } from "@/hooks/useHabits";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
@@ -13,6 +14,7 @@ import ApperIcon from "@/components/ApperIcon";
 const Goals = () => {
   const { t } = useTranslation();
   const { goals, loading, error, createGoal, updateGoal, deleteGoal, refetch } = useGoals();
+  const { habits, loading: habitsLoading } = useHabits();
   const [showForm, setShowForm] = useState(false);
   const [editingGoal, setEditingGoal] = useState(null);
   const [formData, setFormData] = useState({
@@ -20,9 +22,9 @@ const Goals = () => {
     description: "",
     imageUrl: "",
     affirmation: "",
-    targetDate: ""
+    targetDate: "",
+    linkedHabits: []
   });
-
   if (loading) {
     return <Loading type="cards" />;
   }
@@ -31,12 +33,13 @@ const Goals = () => {
     return <Error message={error} onRetry={refetch} />;
   }
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const goalData = {
         ...formData,
-        targetDate: formData.targetDate ? new Date(formData.targetDate).toISOString() : null
+        targetDate: formData.targetDate ? new Date(formData.targetDate).toISOString() : null,
+        linkedHabits: formData.linkedHabits || []
       };
       
       if (editingGoal) {
@@ -52,21 +55,23 @@ const Goals = () => {
         description: "",
         imageUrl: "",
         affirmation: "",
-        targetDate: ""
+        targetDate: "",
+        linkedHabits: []
       });
     } catch (err) {
       console.error("Failed to save goal:", err);
     }
   };
 
-  const handleEdit = (goal) => {
+const handleEdit = (goal) => {
     setEditingGoal(goal);
     setFormData({
       title: goal.title,
       description: goal.description,
       imageUrl: goal.imageUrl || "",
       affirmation: goal.affirmation || "",
-      targetDate: goal.targetDate ? goal.targetDate.split('T')[0] : ""
+      targetDate: goal.targetDate ? goal.targetDate.split('T')[0] : "",
+      linkedHabits: goal.linkedHabits || []
     });
     setShowForm(true);
   };
@@ -158,6 +163,44 @@ const Goals = () => {
                 value={formData.targetDate}
                 onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
               />
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-300">
+                  {t('goals.linked_habits')}
+                </label>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  {habitsLoading ? (
+                    <p className="text-sm text-gray-400">Loading habits...</p>
+                  ) : habits.length === 0 ? (
+                    <p className="text-sm text-gray-400">No habits available</p>
+                  ) : (
+                    habits.map((habit) => (
+                      <label key={habit.Id} className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          checked={formData.linkedHabits.includes(habit.Id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setFormData({
+                                ...formData,
+                                linkedHabits: [...formData.linkedHabits, habit.Id]
+                              });
+                            } else {
+                              setFormData({
+                                ...formData,
+                                linkedHabits: formData.linkedHabits.filter(id => id !== habit.Id)
+                              });
+                            }
+                          }}
+                          className="rounded border-gray-600 bg-gray-700 text-primary focus:ring-primary"
+                        />
+                        <span className="text-sm text-gray-300">{habit.title}</span>
+                      </label>
+                    ))
+                  )}
+                </div>
+              </div>
+              
 <div className="flex items-center space-x-4 pt-4">
                 <Button type="submit" variant="primary">
                   {editingGoal ? t('goals.update_goal') : t('goals.create_goal')}
@@ -173,7 +216,8 @@ const Goals = () => {
                       description: "",
                       imageUrl: "",
                       affirmation: "",
-                      targetDate: ""
+                      targetDate: "",
+                      linkedHabits: []
                     });
                   }}
 >

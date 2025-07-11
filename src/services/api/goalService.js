@@ -13,22 +13,27 @@ export const goalService = {
     return goals.find(goal => goal.Id === id);
   },
 
-  async create(goalData) {
+async create(goalData) {
     await new Promise(resolve => setTimeout(resolve, 400));
     const newGoal = {
       ...goalData,
       Id: Math.max(...goals.map(g => g.Id)) + 1,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      linkedHabits: goalData.linkedHabits || []
     };
     goals.push(newGoal);
     return newGoal;
   },
 
-  async update(id, goalData) {
+async update(id, goalData) {
     await new Promise(resolve => setTimeout(resolve, 300));
     const index = goals.findIndex(goal => goal.Id === id);
     if (index !== -1) {
-      goals[index] = { ...goals[index], ...goalData };
+      goals[index] = { 
+        ...goals[index], 
+        ...goalData,
+        linkedHabits: goalData.linkedHabits || goals[index].linkedHabits || []
+      };
       return goals[index];
     }
     throw new Error("Goal not found");
