@@ -61,12 +61,13 @@
     "no_habits": "Noch keine Gewohnheiten",
     "no_habits_desc": "Beginne mit dem Aufbau besserer Gewohnheiten, indem du deine erste erstellst. Beständigkeit ist der Schlüssel zum Erreichen deiner Ziele.",
     "add_first": "Füge deine erste Gewohnheit hinzu",
-    "categories": {
+"categories": {
       "wellness": "Wohlbefinden",
       "health": "Gesundheit",
       "learning": "Lernen",
       "productivity": "Produktivität",
-      "creativity": "Kreativität"
+      "creativity": "Kreativität",
+      "mood_tracker": "Stimmungstracker"
     },
     "frequencies": {
       "daily": "Täglich",

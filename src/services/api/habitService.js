@@ -15,10 +15,10 @@ export const habitService = {
 
   async create(habitData) {
     await new Promise(resolve => setTimeout(resolve, 400));
-    const newHabit = {
+const newHabit = {
       ...habitData,
       Id: Math.max(...habits.map(h => h.Id)) + 1,
-      completions: [],
+      completions: {},
       createdAt: new Date().toISOString()
     };
     habits.push(newHabit);
@@ -45,16 +45,18 @@ export const habitService = {
     throw new Error("Habit not found");
   },
 
-  async toggleCompletion(id, date) {
+async toggleCompletion(id, date) {
     await new Promise(resolve => setTimeout(resolve, 200));
     const habit = habits.find(h => h.Id === id);
     if (!habit) throw new Error("Habit not found");
     
     const dateStr = date.toISOString().split('T')[0];
-    if (habit.completions.includes(dateStr)) {
-      habit.completions = habit.completions.filter(d => d !== dateStr);
+    if (!habit.completions) habit.completions = {};
+    
+    if (habit.completions[dateStr]) {
+      habit.completions[dateStr] += 1;
     } else {
-      habit.completions.push(dateStr);
+      habit.completions[dateStr] = 1;
     }
     
     return habit;

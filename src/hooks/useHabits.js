@@ -21,7 +21,7 @@ export const useHabits = () => {
     }
   };
 
-  const toggleHabit = async (habitId) => {
+const toggleHabit = async (habitId) => {
     try {
       const today = new Date();
       const updatedHabit = await habitService.toggleCompletion(habitId, today);
@@ -30,7 +30,8 @@ export const useHabits = () => {
           habit.Id === habitId ? updatedHabit : habit
         )
       );
-      toast.success("Habit updated successfully");
+      const todayCompletions = updatedHabit.completions?.[today.toISOString().split('T')[0]] || 0;
+      toast.success(`Habit completed ${todayCompletions} time${todayCompletions !== 1 ? 's' : ''} today`);
     } catch (err) {
       toast.error("Failed to update habit");
     }

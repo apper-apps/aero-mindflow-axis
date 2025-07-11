@@ -61,12 +61,13 @@
     "no_habits": "No habits yet",
     "no_habits_desc": "Start building better habits by creating your first one. Consistency is key to achieving your goals.",
     "add_first": "Add Your First Habit",
-    "categories": {
+"categories": {
       "wellness": "Wellness",
       "health": "Health",
       "learning": "Learning",
       "productivity": "Productivity",
-      "creativity": "Creativity"
+      "creativity": "Creativity",
+      "mood_tracker": "Mood Tracker"
     },
     "frequencies": {
       "daily": "Daily",

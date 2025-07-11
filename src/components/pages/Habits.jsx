@@ -22,11 +22,10 @@ const Habits = () => {
     description: "",
     category: "Wellness",
     frequency: "daily"
-  });
+});
 
-  const categories = ["Wellness", "Health", "Learning", "Productivity", "Creativity"];
+  const categories = ["Wellness", "Health", "Learning", "Productivity", "Creativity", "Mood Tracker"];
   const frequencies = ["daily", "weekly", "monthly"];
-
   if (loading) {
     return <Loading type="cards" />;
   }
@@ -47,7 +46,7 @@ const Habits = () => {
       }
       setShowForm(false);
       setEditingHabit(null);
-      setFormData({
+setFormData({
         name: "",
         description: "",
         category: "Wellness",
@@ -166,7 +165,7 @@ const Habits = () => {
                   onClick={() => {
                     setShowForm(false);
                     setEditingHabit(null);
-                    setFormData({
+setFormData({
                       name: "",
                       description: "",
                       category: "Wellness",
