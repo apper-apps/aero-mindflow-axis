@@ -18,11 +18,12 @@ const Journal = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingEntry, setEditingEntry] = useState(null);
   const [filterType, setFilterType] = useState("all");
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     type: "morning",
     content: "",
     mood: 3,
-    tags: ""
+    tags: "",
+    image: null
   });
 
   const moodLabels = {
@@ -45,6 +46,25 @@ const Journal = () => {
     ? entries 
     : entries.filter(entry => entry.type === filterType);
 
+const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        alert('Image size must be less than 5MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+      setFormData({ ...formData, image: file });
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setFormData({ ...formData, image: null });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -66,20 +86,22 @@ const Journal = () => {
         type: "morning",
         content: "",
         mood: 3,
-        tags: ""
+        tags: "",
+        image: null
       });
     } catch (err) {
       console.error("Failed to save entry:", err);
     }
   };
 
-  const handleEdit = (entry) => {
+const handleEdit = (entry) => {
     setEditingEntry(entry);
     setFormData({
       type: entry.type,
       content: entry.content,
       mood: entry.mood,
-      tags: entry.tags ? entry.tags.join(", ") : ""
+      tags: entry.tags ? entry.tags.join(", ") : "",
+      image: entry.imageUrl || null
     });
     setShowForm(true);
   };
@@ -200,8 +222,51 @@ placeholder={
                 placeholder={t('journal.tags_placeholder')}
               />
               
+              {/* Image Upload Section */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Picture (Optional)
+                </label>
+                {formData.image ? (
+                  <div className="space-y-3">
+                    <div className="relative inline-block">
+                      <img
+                        src={typeof formData.image === 'string' ? formData.image : URL.createObjectURL(formData.image)}
+                        alt="Preview"
+                        className="w-32 h-32 object-cover rounded-lg border border-gray-600"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors"
+                      >
+                        <ApperIcon name="X" size={12} />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-gray-500 transition-colors">
+                    <ApperIcon name="Upload" size={24} className="mx-auto text-gray-400 mb-2" />
+                    <p className="text-sm text-gray-400 mb-2">Upload a picture for your journal entry</p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="cursor-pointer bg-surface hover:bg-gray-600 text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                    >
+                      Choose Image
+                    </label>
+                  </div>
+                )}
+              </div>
+              
               <div className="flex items-center space-x-4 pt-4">
-<Button type="submit" variant="primary">
+                <Button type="submit" variant="primary">
                   {editingEntry ? t('journal.update_entry') : t('journal.save_entry')}
                 </Button>
                 <Button
@@ -214,10 +279,11 @@ placeholder={
                       type: "morning",
                       content: "",
                       mood: 3,
-                      tags: ""
+                      tags: "",
+                      image: null
                     });
                   }}
->
+                >
                   {t('common.cancel')}
                 </Button>
               </div>

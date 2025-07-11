@@ -21,7 +21,7 @@ export const useJournal = () => {
     }
   };
 
-  const createEntry = async (entryData) => {
+const createEntry = async (entryData) => {
     try {
       const newEntry = await journalService.create(entryData);
       setEntries(prevEntries => [newEntry, ...prevEntries]);
@@ -33,7 +33,7 @@ export const useJournal = () => {
     }
   };
 
-  const updateEntry = async (entryId, entryData) => {
+const updateEntry = async (entryId, entryData) => {
     try {
       const updatedEntry = await journalService.update(entryId, entryData);
       setEntries(prevEntries => 

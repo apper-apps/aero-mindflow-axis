@@ -54,9 +54,18 @@ const JournalCard = ({ entry, onEdit, onDelete }) => {
               <span className="text-sm text-gray-400">{entry.mood}/5</span>
             </div>
           </div>
-          <p className="text-gray-300 text-sm line-clamp-3 mb-2">
+<p className="text-gray-300 text-sm line-clamp-3 mb-2">
             {entry.content}
           </p>
+          {entry.imageUrl && (
+            <div className="mb-3">
+              <img
+                src={entry.imageUrl}
+                alt="Journal entry"
+                className="w-full max-w-xs h-32 object-cover rounded-lg border border-gray-600"
+              />
+            </div>
+          )}
           {entry.tags && entry.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {entry.tags.map((tag, index) => (

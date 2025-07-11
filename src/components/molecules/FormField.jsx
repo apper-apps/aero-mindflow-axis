@@ -4,7 +4,7 @@ import Label from "@/components/atoms/Label";
 import Textarea from "@/components/atoms/Textarea";
 import Input from "@/components/atoms/Input";
 
-function FormField({ label, type, multiline, className, error, ...props }) {
+function FormField({ label, type, multiline, className, error, accept, ...props }) {
   // Defensive check for component availability
   if (!Input || !Textarea) {
     console.error('FormField: Required components not available')
@@ -25,8 +25,7 @@ function FormField({ label, type, multiline, className, error, ...props }) {
     )
   }
 
-  const InputComponent = multiline ? Textarea : Input
-
+const InputComponent = multiline ? Textarea : Input
   return (
     <div className={cn("space-y-2", className)}>
       {label && (
@@ -34,8 +33,9 @@ function FormField({ label, type, multiline, className, error, ...props }) {
           {label}
         </Label>
       )}
-      <InputComponent
+<InputComponent
         type={type}
+        accept={accept}
         className={cn(
           error && "border-red-500 focus:border-red-500"
         )}
