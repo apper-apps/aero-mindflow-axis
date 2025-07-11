@@ -2,9 +2,10 @@
   "nav": {
     "dashboard": "Dashboard",
     "habits": "Habits",
-    "journal": "Journal",
+"journal": "Journal",
     "goals": "Goals",
-    "calendar": "Calendar"
+    "calendar": "Calendar",
+    "profile": "Profile Settings"
   },
   "common": {
     "add": "Add",
@@ -21,7 +22,7 @@
     "all": "All",
     "morning": "Morning",
     "evening": "Evening",
-    "good_morning": "Good morning",
+"good_morning": "Good morning",
     "good_afternoon": "Good afternoon",
     "good_evening": "Good evening"
   },
@@ -152,6 +153,29 @@
   "error": {
     "general": "Something went wrong",
     "network": "Network error",
-    "not_found": "Not found"
+"not_found": "Not found"
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "subtitle": "Customize your personal information and preferences",
+    "username": "Username",
+    "username_placeholder": "Enter your display name",
+    "username_description": "This name will appear throughout the app",
+    "username_required": "Username is required",
+    "upload_picture": "Upload Picture",
+    "remove_picture": "Remove Picture",
+    "picture_requirements": "JPG, PNG up to 5MB. Recommended: 200x200px",
+    "save_changes": "Save Changes",
+    "profile_updated": "Profile updated successfully!",
+    "picture_uploaded": "Profile picture uploaded successfully!",
+    "update_failed": "Failed to update profile. Please try again.",
+    "upload_failed": "Failed to upload picture. Please try again.",
+    "file_too_large": "File is too large. Maximum size is 5MB.",
+    "invalid_file_type": "Invalid file type. Please upload an image.",
+    "preview": "Preview",
+    "default_username": "MindFlow User",
+    "member_since": "Member since today",
+    "welcome": "Welcome back, {{name}}!",
+    "personalized_experience": "Your personalized experience"
   }
 }

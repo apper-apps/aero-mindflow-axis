@@ -8,6 +8,7 @@ import Habits from "@/components/pages/Habits";
 import Journal from "@/components/pages/Journal";
 import Goals from "@/components/pages/Goals";
 import Calendar from "@/components/pages/Calendar";
+import ProfileSettings from "@/components/pages/ProfileSettings";
 function App() {
   return (
     <I18nextProvider i18n={i18n}>
@@ -16,9 +17,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/habits" element={<Habits />} />
-            <Route path="/journal" element={<Journal />} />
+<Route path="/journal" element={<Journal />} />
             <Route path="/goals" element={<Goals />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/profile" element={<ProfileSettings />} />
           </Routes>
         </Layout>
         <ToastContainer

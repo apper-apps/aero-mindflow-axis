@@ -2,9 +2,10 @@
   "nav": {
     "dashboard": "Übersicht",
     "habits": "Gewohnheiten",
-    "journal": "Tagebuch",
+"journal": "Tagebuch",
     "goals": "Ziele",
-    "calendar": "Kalender"
+    "calendar": "Kalender",
+    "profile": "Profil Einstellungen"
   },
   "common": {
     "add": "Hinzufügen",
@@ -21,7 +22,7 @@
     "all": "Alle",
     "morning": "Morgen",
     "evening": "Abend",
-    "good_morning": "Guten Morgen",
+"good_morning": "Guten Morgen",
     "good_afternoon": "Guten Tag",
     "good_evening": "Guten Abend"
   },
@@ -152,6 +153,29 @@
   "error": {
     "general": "Etwas ist schiefgelaufen",
     "network": "Netzwerkfehler",
-    "not_found": "Nicht gefunden"
+"not_found": "Nicht gefunden"
+  },
+  "profile": {
+    "title": "Profil Einstellungen",
+    "subtitle": "Passe deine persönlichen Informationen und Einstellungen an",
+    "username": "Benutzername",
+    "username_placeholder": "Gib deinen Anzeigenamen ein",
+    "username_description": "Dieser Name wird in der gesamten App angezeigt",
+    "username_required": "Benutzername ist erforderlich",
+    "upload_picture": "Bild hochladen",
+    "remove_picture": "Bild entfernen",
+    "picture_requirements": "JPG, PNG bis zu 5MB. Empfohlen: 200x200px",
+    "save_changes": "Änderungen speichern",
+    "profile_updated": "Profil erfolgreich aktualisiert!",
+    "picture_uploaded": "Profilbild erfolgreich hochgeladen!",
+    "update_failed": "Profil konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+    "upload_failed": "Bild konnte nicht hochgeladen werden. Bitte versuche es erneut.",
+    "file_too_large": "Datei ist zu groß. Maximalgröße ist 5MB.",
+    "invalid_file_type": "Ungültiger Dateityp. Bitte lade ein Bild hoch.",
+    "preview": "Vorschau",
+    "default_username": "MindFlow Benutzer",
+    "member_since": "Mitglied seit heute",
+    "welcome": "Willkommen zurück, {{name}}!",
+    "personalized_experience": "Dein personalisiertes Erlebnis"
   }
 }

@@ -1,16 +1,24 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ApperIcon from "@/components/ApperIcon";
 import { cn } from "@/utils/cn";
+import profileService from "@/services/api/profileService";
 const Sidebar = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
+  const [profile, setProfile] = useState(null);
   
+  useState(() => {
+    const userProfile = profileService.getProfile();
+    setProfile(userProfile);
+  }, []);
   const navItems = [
     { path: "/", icon: "Home", label: t('nav.dashboard') },
     { path: "/habits", icon: "CheckSquare", label: t('nav.habits') },
     { path: "/journal", icon: "BookOpen", label: t('nav.journal') },
-    { path: "/goals", icon: "Target", label: t('nav.goals') },
+{ path: "/goals", icon: "Target", label: t('nav.goals') },
     { path: "/calendar", icon: "Calendar", label: t('nav.calendar') },
+    { path: "/profile", icon: "Settings", label: t('nav.profile') },
   ];
   return (
     <>
@@ -22,9 +30,20 @@ const Sidebar = ({ isOpen, onClose }) => {
               <ApperIcon name="Brain" size={20} className="text-white" />
             </div>
 <div>
-              <h1 className="text-xl font-bold text-gray-100">{t('header.app_name')}</h1>
-              <p className="text-xs text-gray-400">{t('header.app_tagline')}</p>
+              <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+              <p className="text-xs text-gray-400">{profile?.username ? t('header.app_tagline') : t('header.app_tagline')}</p>
             </div>
+            {profile && (
+              <div className="w-6 h-6 rounded-full overflow-hidden bg-gradient-to-br from-primary to-secondary ml-auto">
+                {profile.profilePicture ? (
+                  <img src={profile.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ApperIcon name="User" size={12} className="text-white" />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           
           <nav className="space-y-2">
@@ -73,9 +92,20 @@ const Sidebar = ({ isOpen, onClose }) => {
                   <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                     <ApperIcon name="Brain" size={20} className="text-white" />
 <div>
-                    <h1 className="text-xl font-bold text-gray-100">{t('header.app_name')}</h1>
-                    <p className="text-xs text-gray-400">{t('header.app_tagline')}</p>
+                    <h1 className="text-xl font-bold text-gray-100">{profile?.username || t('header.app_name')}</h1>
+                    <p className="text-xs text-gray-400">{profile?.username ? t('header.app_tagline') : t('header.app_tagline')}</p>
                   </div>
+                  {profile && (
+                    <div className="w-6 h-6 rounded-full overflow-hidden bg-gradient-to-br from-primary to-secondary ml-2">
+                      {profile.profilePicture ? (
+                        <img src={profile.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <ApperIcon name="User" size={12} className="text-white" />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
                 </div>
                 <button
