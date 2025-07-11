@@ -1,6 +1,5 @@
 class SubscriptionService {
   constructor() {
-  constructor() {
     this.delay = 300;
   }
 
