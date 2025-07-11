@@ -185,10 +185,11 @@ const Calendar = () => {
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-secondary">
-                  {selectedDateStats.journalCount}
+{selectedDateStats.journalCount}
                 </p>
                 <p className="text-sm text-gray-400">{t('calendar.journal')}</p>
               </div>
+            </div>
           </Card>
 
           {/* Habits for Selected Date */}
@@ -205,15 +206,16 @@ const Calendar = () => {
                 {selectedDateHabits.map(habit => (
                   <div key={habit.Id} className="flex items-center space-x-2">
                     <ApperIcon name="CheckCircle" size={16} className="text-success" />
-                    <span className="text-sm text-gray-300">{habit.name}</span>
+<span className="text-sm text-gray-300">{habit.name}</span>
                   </div>
                 ))}
-</div>
+              </div>
             ) : (
               <p className="text-sm text-gray-400">{t('calendar.no_habits_completed')}</p>
             )}
           </Card>
 
+          {/* Journal for Selected Date */}
           {/* Journal for Selected Date */}
 <Card className="p-4">
             <div className="flex items-center justify-between mb-3">
@@ -242,15 +244,15 @@ const Calendar = () => {
                     </div>
                     <p className="text-sm text-gray-300 line-clamp-3">
                       {entry.content}
-                    </p>
+</p>
                   </div>
                 ))}
-</div>
+              </div>
             ) : (
               <p className="text-sm text-gray-400">{t('calendar.no_journal_entries')}</p>
             )}
           </Card>
-        </motion.div>
+</motion.div>
       </div>
     </div>
   );
