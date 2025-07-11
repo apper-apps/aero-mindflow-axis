@@ -50,23 +50,24 @@ const Dashboard = () => {
 
   const today = format(new Date(), "yyyy-MM-dd");
   const todayHabits = habits.filter(habit => habit.frequency === "daily");
-  const completedToday = todayHabits.filter(habit => 
-    habit.completions && habit.completions.includes(today)
+const completedToday = todayHabits.filter(habit => 
+    habit.completions && habit.completions[today]
   ).length;
   const completionRate = todayHabits.length > 0 ? (completedToday / todayHabits.length) * 100 : 0;
 
   const recentEntries = entries.slice(0, 3);
   const activeGoals = goals.slice(0, 3);
 
-  const totalStreaks = habits.reduce((sum, habit) => {
-    if (!habit.completions || habit.completions.length === 0) return sum;
+const totalStreaks = habits.reduce((sum, habit) => {
+    if (!habit.completions || Object.keys(habit.completions).length === 0) return sum;
     
     let streak = 0;
     let currentDate = new Date();
     
-    while (streak < habit.completions.length) {
+    // Calculate streak by checking consecutive days backwards from today
+    while (true) {
       const dateStr = format(currentDate, "yyyy-MM-dd");
-      if (habit.completions.includes(dateStr)) {
+      if (habit.completions[dateStr]) {
         streak++;
         currentDate.setDate(currentDate.getDate() - 1);
       } else {
@@ -77,7 +78,7 @@ const Dashboard = () => {
     return sum + streak;
   }, 0);
 
-return (
+  return (
     <div className="space-y-8">
       {/* Daily Quote Section */}
       <motion.div
@@ -161,8 +162,8 @@ return (
           {todayHabits.slice(0, 6).map((habit) => (
             <HabitCard
               key={habit.Id}
-              habit={habit}
-              isCompleted={habit.completions && habit.completions.includes(today)}
+habit={habit}
+              isCompleted={habit.completions && habit.completions[today]}
               onToggle={toggleHabit}
               onEdit={() => {}}
               onDelete={() => {}}
