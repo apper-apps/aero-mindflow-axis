@@ -1,0 +1,56 @@
+[
+  {
+    "Id": 1,
+    "type": "morning",
+    "date": "2024-01-15T06:00:00.000Z",
+    "content": "Today I want to focus on completing my presentation and spending quality time with family. I'm feeling energized and ready to tackle the challenges ahead. My intention is to stay present and approach each task with mindfulness.",
+    "mood": 4,
+    "tags": ["productivity", "family", "mindfulness"],
+    "createdAt": "2024-01-15T06:00:00.000Z"
+  },
+  {
+    "Id": 2,
+    "type": "evening",
+    "date": "2024-01-14T21:00:00.000Z",
+    "content": "Had a productive day overall. Completed the presentation draft and had a meaningful conversation with my partner. I'm grateful for the support system I have and the progress I'm making on my goals. Tomorrow I want to focus on exercise and reading.",
+    "mood": 4,
+    "tags": ["gratitude", "productivity", "relationships"],
+    "createdAt": "2024-01-14T21:00:00.000Z"
+  },
+  {
+    "Id": 3,
+    "type": "morning",
+    "date": "2024-01-14T06:30:00.000Z",
+    "content": "Woke up feeling a bit tired but motivated. Today's priorities are working on the presentation, calling my parents, and going for a run. I want to practice being more patient with myself and others.",
+    "mood": 3,
+    "tags": ["family", "exercise", "patience"],
+    "createdAt": "2024-01-14T06:30:00.000Z"
+  },
+  {
+    "Id": 4,
+    "type": "evening",
+    "date": "2024-01-13T20:30:00.000Z",
+    "content": "Wonderful day spent mostly outdoors. Went hiking with friends and felt so connected to nature. These moments remind me why it's important to balance work with activities that nourish my soul. Feeling grateful and peaceful.",
+    "mood": 5,
+    "tags": ["nature", "friends", "gratitude", "balance"],
+    "createdAt": "2024-01-13T20:30:00.000Z"
+  },
+  {
+    "Id": 5,
+    "type": "morning",
+    "date": "2024-01-13T07:00:00.000Z",
+    "content": "Saturday morning and I'm planning to spend it in nature. Meeting friends for a hike and looking forward to disconnecting from work. My intention is to be fully present and enjoy the simple pleasures of life.",
+    "mood": 4,
+    "tags": ["nature", "friends", "presence", "weekend"],
+    "createdAt": "2024-01-13T07:00:00.000Z"
+  },
+  {
+    "Id": 6,
+    "type": "evening",
+    "date": "2024-01-12T21:15:00.000Z",
+    "content": "Challenging day at work but I handled it well. Practiced breathing exercises during stressful moments and it really helped. I'm learning to respond rather than react. Proud of my growth and resilience.",
+    "mood": 3,
+    "tags": ["work", "stress-management", "growth", "resilience"],
+    "createdAt": "2024-01-12T21:15:00.000Z"
+  }
+]

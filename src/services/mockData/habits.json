@@ -1,0 +1,62 @@
+[
+  {
+    "Id": 1,
+    "name": "Morning Meditation",
+    "description": "10 minutes of mindfulness meditation",
+    "frequency": "daily",
+    "category": "Wellness",
+    "color": "#6B46C1",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-14", "2024-01-13", "2024-01-12"]
+  },
+  {
+    "Id": 2,
+    "name": "Read for 30 minutes",
+    "description": "Read personal development or fiction books",
+    "frequency": "daily",
+    "category": "Learning",
+    "color": "#EC4899",
+    "createdAt": "2024-01-02T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-14", "2024-01-13"]
+  },
+  {
+    "Id": 3,
+    "name": "Exercise",
+    "description": "30 minutes of physical activity",
+    "frequency": "daily",
+    "category": "Health",
+    "color": "#F59E0B",
+    "createdAt": "2024-01-03T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-13", "2024-01-11"]
+  },
+  {
+    "Id": 4,
+    "name": "Write in Journal",
+    "description": "Morning planning and evening reflection",
+    "frequency": "daily",
+    "category": "Wellness",
+    "color": "#10B981",
+    "createdAt": "2024-01-04T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-14", "2024-01-13", "2024-01-12", "2024-01-11"]
+  },
+  {
+    "Id": 5,
+    "name": "Drink 8 glasses of water",
+    "description": "Stay hydrated throughout the day",
+    "frequency": "daily",
+    "category": "Health",
+    "color": "#3B82F6",
+    "createdAt": "2024-01-05T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-14", "2024-01-12"]
+  },
+  {
+    "Id": 6,
+    "name": "Practice Gratitude",
+    "description": "List 3 things I'm grateful for",
+    "frequency": "daily",
+    "category": "Wellness",
+    "color": "#8B5CF6",
+    "createdAt": "2024-01-06T00:00:00.000Z",
+    "completions": ["2024-01-15", "2024-01-14", "2024-01-13", "2024-01-12"]
+  }
+]

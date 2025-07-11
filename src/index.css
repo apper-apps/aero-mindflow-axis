@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'react-toastify/dist/ReactToastify.css';
+
+:root {
+  --toastify-toast-width: 350px;
+  --toastify-toast-min-height: 54px;
+  --toastify-toast-padding: 16px;
+  --toastify-color-progress-success: #10B981;
+  --toastify-color-progress-warning: #F59E0B;
+  --toastify-color-progress-error: #EF4444;
+  --toastify-color-progress-info: #3B82F6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6B46C1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7C3AED;
+}
+
+/* Custom toast positioning */
+.Toastify__toast-container {
+  z-index: 9999;
+}
+
+.Toastify__toast {
+  background: #1F2937;
+  color: #F9FAFB;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  min-height: 54px;
+  padding: 12px 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #10B981;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #F59E0B;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #EF4444;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #3B82F6;
+}
+
+/* Aurora gradient animation */
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.aurora-gradient {
+  background: linear-gradient(-45deg, #6B46C1, #EC4899, #F59E0B, #3B82F6);
+  background-size: 400% 400%;
+  animation: aurora 8s ease infinite;
+}
+
+/* Habit completion animation */
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.checkmark-animation {
+  animation: checkmark 0.3s ease-out;
+}
+
+/* Streak flame animation */
+@keyframes flame {
+  0%, 100% {
+    transform: rotate(-2deg) scale(1);
+  }
+  50% {
+    transform: rotate(2deg) scale(1.05);
+  }
+}
+
+.flame-animation {
+  animation: flame 2s ease-in-out infinite;
+}
+
+/* Progress ring animation */
+@keyframes progress-ring {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+  100% {
+    stroke-dasharray: var(--progress) 100;
+  }
+}
+
+.progress-ring {
+  animation: progress-ring 1s ease-out;
+}
+
+/* Floating label animation */
+.floating-label {
+  transition: all 0.2s ease-out;
+}
+
+.floating-label.active {
+  transform: translateY(-20px);
+  font-size: 0.75rem;
+  color: #6B46C1;
+}
