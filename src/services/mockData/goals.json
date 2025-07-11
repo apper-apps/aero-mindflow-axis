@@ -6,51 +6,57 @@
     "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
     "affirmation": "I am strong, determined, and capable of achieving any goal I set my mind to.",
     "targetDate": "2024-12-31T00:00:00.000Z",
-    "createdAt": "2024-01-01T00:00:00.000Z"
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "category": "long-term"
   },
-  {
+{
     "Id": 2,
     "title": "Learn Spanish Fluently",
     "description": "Achieve conversational fluency in Spanish to connect with more people and cultures around the world.",
     "imageUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
     "affirmation": "I embrace new languages and cultures with enthusiasm and confidence.",
     "targetDate": "2024-08-31T00:00:00.000Z",
-    "createdAt": "2024-01-02T00:00:00.000Z"
+    "createdAt": "2024-01-02T00:00:00.000Z",
+    "category": "mid-term"
   },
-  {
+{
     "Id": 3,
     "title": "Start a Side Business",
     "description": "Launch my consulting business and generate my first $10,000 in revenue, creating financial independence.",
     "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
     "affirmation": "I am a successful entrepreneur who creates value and abundance in my life.",
     "targetDate": "2024-10-31T00:00:00.000Z",
-    "createdAt": "2024-01-03T00:00:00.000Z"
+    "createdAt": "2024-01-03T00:00:00.000Z",
+    "category": "mid-term"
   },
-  {
+{
     "Id": 4,
     "title": "Write a Book",
     "description": "Complete writing my first book about personal development and self-improvement practices.",
     "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
     "affirmation": "I have valuable insights to share and my voice matters in the world.",
     "targetDate": "2024-12-31T00:00:00.000Z",
-    "createdAt": "2024-01-04T00:00:00.000Z"
+    "createdAt": "2024-01-04T00:00:00.000Z",
+    "category": "long-term"
   },
-  {
+{
     "Id": 5,
     "title": "Travel to Japan",
     "description": "Experience the culture, food, and traditions of Japan while practicing mindfulness and presence.",
     "imageUrl": "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=400&h=300&fit=crop",
     "affirmation": "I attract amazing travel experiences and connect deeply with different cultures.",
     "targetDate": "2024-09-30T00:00:00.000Z",
-    "createdAt": "2024-01-05T00:00:00.000Z"
+    "createdAt": "2024-01-05T00:00:00.000Z",
+    "category": "mid-term"
   },
-  {
+{
     "Id": 6,
     "title": "Master Meditation",
     "description": "Develop a consistent daily meditation practice and attend a silent retreat to deepen my spiritual journey.",
     "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
     "affirmation": "I am at peace with myself and connected to the wisdom within me.",
     "targetDate": "2024-06-30T00:00:00.000Z",
-    "createdAt": "2024-01-06T00:00:00.000Z"
+    "createdAt": "2024-01-06T00:00:00.000Z",
+    "category": "short-term"
   }
 ]

@@ -15,12 +15,13 @@ const Goals = () => {
   const { goals, loading, error, createGoal, updateGoal, deleteGoal, refetch } = useGoals();
   const [showForm, setShowForm] = useState(false);
   const [editingGoal, setEditingGoal] = useState(null);
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: "",
     description: "",
     imageUrl: "",
     affirmation: "",
-    targetDate: ""
+    targetDate: "",
+    category: ""
   });
   if (loading) {
     return <Loading type="cards" />;
@@ -33,11 +34,11 @@ const Goals = () => {
 const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const goalData = {
+const goalData = {
         ...formData,
-        targetDate: formData.targetDate ? new Date(formData.targetDate).toISOString() : null
+        targetDate: formData.targetDate ? new Date(formData.targetDate).toISOString() : null,
+        category: formData.category || 'mid-term'
       };
-      
       if (editingGoal) {
         await updateGoal(editingGoal.Id, goalData);
       } else {
@@ -60,12 +61,13 @@ const handleSubmit = async (e) => {
 
 const handleEdit = (goal) => {
     setEditingGoal(goal);
-    setFormData({
+setFormData({
       title: goal.title,
       description: goal.description,
       imageUrl: goal.imageUrl || "",
       affirmation: goal.affirmation || "",
-      targetDate: goal.targetDate ? goal.targetDate.split('T')[0] : ""
+      targetDate: goal.targetDate ? goal.targetDate.split('T')[0] : "",
+      category: goal.category || ""
     });
     setShowForm(true);
   };
@@ -158,6 +160,18 @@ const handleEdit = (goal) => {
                 onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
               />
               
+              <FormField
+                label={t('goals.category')}
+                type="select"
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                options={[
+                  { value: "", label: t('goals.auto_categorize') },
+                  { value: "short-term", label: t('goals.short_term') },
+                  { value: "mid-term", label: t('goals.mid_term') },
+                  { value: "long-term", label: t('goals.long_term') }
+                ]}
+              />
 <div className="flex items-center space-x-4 pt-4">
                 <Button type="submit" variant="primary">
                   {editingGoal ? t('goals.update_goal') : t('goals.create_goal')}
@@ -168,12 +182,13 @@ const handleEdit = (goal) => {
                   onClick={() => {
                     setShowForm(false);
                     setEditingGoal(null);
-                    setFormData({
+setFormData({
                       title: "",
                       description: "",
                       imageUrl: "",
                       affirmation: "",
-                      targetDate: ""
+                      targetDate: "",
+                      category: ""
                     });
                   }}
 >
