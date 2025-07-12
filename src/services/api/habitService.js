@@ -125,13 +125,14 @@ export const habitService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
 
-      const recordData = {
+const recordData = {
         Id: parseInt(id),
         Name: habitData.name,
         description: habitData.description || "",
         frequency: habitData.frequency,
         category: habitData.category,
-        color: habitData.color || "#6B46C1"
+        color: habitData.color || "#6B46C1",
+        completions: habitData.completions
       };
 
       const params = {
