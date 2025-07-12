@@ -32,7 +32,16 @@ orderBy: [
         }
       };
 
-      const response = await apperClient.fetchRecords("app_subscription", params);
+// Initialize ApperClient if not already done
+      if (!this.apperClient) {
+        const { ApperClient } = window.ApperSDK;
+        this.apperClient = new ApperClient({
+          apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+          apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+        });
+      }
+
+      const response = await this.apperClient.fetchRecords("app_subscription", params);
       
       if (!response.success) {
         console.error(response.message);
@@ -43,7 +52,7 @@ orderBy: [
         return response.data[0];
       }
       
-return this.getDefaultSubscription();
+      return this.getDefaultSubscription();
     } catch (error) {
       console.error("Error fetching subscription:", error);
       return this.getDefaultSubscription();
@@ -118,12 +127,12 @@ return this.getDefaultSubscription();
       if (currentSubscription.Id) {
         // Update existing subscription
         recordData.Id = currentSubscription.Id;
-        const params = { records: [recordData] };
-        response = await apperClient.updateRecord("app_subscription", params);
+const params = { records: [recordData] };
+        response = await this.apperClient.updateRecord("app_subscription", params);
       } else {
         // Create new subscription
         const params = { records: [recordData] };
-        response = await apperClient.createRecord("app_subscription", params);
+        response = await this.apperClient.createRecord("app_subscription", params);
       }
 
       if (!response.success) {
@@ -182,7 +191,7 @@ return this.getDefaultSubscription();
       };
 
       const params = { records: [recordData] };
-      const response = await apperClient.updateRecord("app_subscription", params);
+const response = await this.apperClient.updateRecord("app_subscription", params);
 
       if (!response.success) {
         console.error(response.message);
@@ -272,8 +281,8 @@ return this.getDefaultSubscription();
         cancel_at_period_end: true
       };
 
-      const params = { records: [recordData] };
-      const response = await apperClient.updateRecord("app_subscription", params);
+const params = { records: [recordData] };
+      const response = await this.apperClient.updateRecord("app_subscription", params);
 
       if (!response.success) {
         console.error(response.message);
@@ -311,7 +320,7 @@ return this.getDefaultSubscription();
       };
 
       const params = { records: [recordData] };
-      const response = await apperClient.updateRecord("app_subscription", params);
+const response = await this.apperClient.updateRecord("app_subscription", params);
 
       if (!response.success) {
         console.error(response.message);
