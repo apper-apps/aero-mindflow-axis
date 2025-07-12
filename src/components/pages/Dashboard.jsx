@@ -20,9 +20,12 @@ const Dashboard = () => {
   const { t } = useTranslation();
 const { habits, loading: habitsLoading, error: habitsError, toggleHabit } = useHabits();
   const { entries, loading: journalLoading, error: journalError } = useJournal();
-  const [fulfillments, setFulfillments] = useState([]);
+const [fulfillments, setFulfillments] = useState([]);
   const [fulfillmentsLoading, setFulfillmentsLoading] = useState(true);
   const [fulfillmentsError, setFulfillmentsError] = useState(null);
+  const [allFulfillments, setAllFulfillments] = useState([]);
+  const [allFulfillmentsLoading, setAllFulfillmentsLoading] = useState(true);
+  const [allFulfillmentsError, setAllFulfillmentsError] = useState(null);
   const { goals, loading: goalsLoading, error: goalsError } = useGoals();
   
 const [dailyQuote, setDailyQuote] = useState(null);
@@ -41,7 +44,7 @@ const [dailyQuote, setDailyQuote] = useState(null);
       }
     };
 
-    const fetchTodaysFulfillments = async () => {
+const fetchTodaysFulfillments = async () => {
       try {
         setFulfillmentsLoading(true);
         setFulfillmentsError(null);
@@ -54,15 +57,29 @@ const [dailyQuote, setDailyQuote] = useState(null);
       }
     };
 
+    const fetchAllFulfillments = async () => {
+      try {
+        setAllFulfillmentsLoading(true);
+        setAllFulfillmentsError(null);
+        const data = await habitFulfillmentService.getAll();
+        setAllFulfillments(data);
+      } catch (error) {
+        setAllFulfillmentsError(error.message);
+      } finally {
+        setAllFulfillmentsLoading(false);
+      }
+    };
+
     fetchDailyQuote();
     fetchTodaysFulfillments();
+    fetchAllFulfillments();
   }, []);
 
-if (habitsLoading || journalLoading || goalsLoading || quoteLoading || fulfillmentsLoading) {
+if (habitsLoading || journalLoading || goalsLoading || quoteLoading || fulfillmentsLoading || allFulfillmentsLoading) {
     return <Loading type="stats" />;
   }
 
-  if (habitsError || journalError || goalsError || quoteError || fulfillmentsError) {
+  if (habitsError || journalError || goalsError || quoteError || fulfillmentsError || allFulfillmentsError) {
     return <Error message="Failed to load dashboard data" />;
   }
 
@@ -76,16 +93,30 @@ if (habitsLoading || journalLoading || goalsLoading || quoteLoading || fulfillme
   const recentEntries = entries.slice(0, 3);
   const activeGoals = goals.slice(0, 3);
 
-const totalStreaks = habits.reduce((sum, habit) => {
-    if (!habit.completions || Object.keys(habit.completions).length === 0) return sum;
+// Calculate total streaks using fulfillment records
+  const totalStreaks = habits.reduce((sum, habit) => {
+    // Get fulfillments for this habit
+    const habitFulfillments = allFulfillments
+      .filter(f => f.habit?.Id === habit.Id)
+      .sort((a, b) => new Date(b.date_fulfilled) - new Date(a.date_fulfilled));
+    
+    if (habitFulfillments.length === 0) return sum;
     
     let streak = 0;
     let currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set to start of day for accurate comparison
     
     // Calculate streak by checking consecutive days backwards from today
     while (true) {
       const dateStr = format(currentDate, "yyyy-MM-dd");
-      if (habit.completions[dateStr]) {
+      
+      // Check if there's a fulfillment for this date
+      const hasFulfillment = habitFulfillments.some(f => {
+        const fulfillmentDate = f.date_fulfilled;
+        return fulfillmentDate === dateStr;
+      });
+      
+      if (hasFulfillment) {
         streak++;
         currentDate.setDate(currentDate.getDate() - 1);
       } else {
@@ -181,7 +212,7 @@ const totalStreaks = habits.reduce((sum, habit) => {
             <HabitCard
               key={habit.Id}
 habit={habit}
-              isCompleted={habit.completions && habit.completions[today]}
+              isCompleted={completedHabitIds.has(habit.Id)}
               onToggle={toggleHabit}
               onEdit={() => {}}
               onDelete={() => {}}
