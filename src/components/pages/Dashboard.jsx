@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { habitFulfillmentService } from "@/services/api/habitFulfillmentService";
 import { useHabits } from "@/hooks/useHabits";
 import { useJournal } from "@/hooks/useJournal";
 import { useGoals } from "@/hooks/useGoals";
@@ -17,11 +18,14 @@ import StatCard from "@/components/molecules/StatCard";
 import quotesService from "@/services/api/quotesService";
 const Dashboard = () => {
   const { t } = useTranslation();
-  const { habits, loading: habitsLoading, error: habitsError, toggleHabit } = useHabits();
+const { habits, loading: habitsLoading, error: habitsError, toggleHabit } = useHabits();
   const { entries, loading: journalLoading, error: journalError } = useJournal();
+  const [fulfillments, setFulfillments] = useState([]);
+  const [fulfillmentsLoading, setFulfillmentsLoading] = useState(true);
+  const [fulfillmentsError, setFulfillmentsError] = useState(null);
   const { goals, loading: goalsLoading, error: goalsError } = useGoals();
   
-  const [dailyQuote, setDailyQuote] = useState(null);
+const [dailyQuote, setDailyQuote] = useState(null);
   const [quoteLoading, setQuoteLoading] = useState(true);
   const [quoteError, setQuoteError] = useState(null);
 
@@ -37,22 +41,36 @@ const Dashboard = () => {
       }
     };
 
+    const fetchTodaysFulfillments = async () => {
+      try {
+        setFulfillmentsLoading(true);
+        setFulfillmentsError(null);
+        const data = await habitFulfillmentService.getTodaysFulfillments();
+        setFulfillments(data);
+      } catch (error) {
+        setFulfillmentsError(error.message);
+      } finally {
+        setFulfillmentsLoading(false);
+      }
+    };
+
     fetchDailyQuote();
+    fetchTodaysFulfillments();
   }, []);
 
-  if (habitsLoading || journalLoading || goalsLoading || quoteLoading) {
+if (habitsLoading || journalLoading || goalsLoading || quoteLoading || fulfillmentsLoading) {
     return <Loading type="stats" />;
   }
 
-  if (habitsError || journalError || goalsError || quoteError) {
+  if (habitsError || journalError || goalsError || quoteError || fulfillmentsError) {
     return <Error message="Failed to load dashboard data" />;
   }
 
   const today = format(new Date(), "yyyy-MM-dd");
   const todayHabits = habits.filter(habit => habit.frequency === "daily");
-const completedToday = todayHabits.filter(habit => 
-    habit.completions && habit.completions[today]
-  ).length;
+// Count completed habits based on actual fulfillment records
+  const completedHabitIds = new Set(fulfillments.map(f => f.habit?.Id).filter(Boolean));
+  const completedToday = todayHabits.filter(habit => completedHabitIds.has(habit.Id)).length;
   const completionRate = todayHabits.length > 0 ? (completedToday / todayHabits.length) * 100 : 0;
 
   const recentEntries = entries.slice(0, 3);
