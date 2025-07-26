@@ -1,40 +1,41 @@
-import { createContext, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { createContext, useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { I18nextProvider } from "react-i18next";
+import "@/index.css";
 import i18n from "@/i18n/i18n";
-import { setUser, clearUser } from './store/userSlice';
+import SubscriptionProvider from "@/components/providers/SubscriptionProvider";
 import Layout from "@/components/organisms/Layout";
-import Dashboard from "@/components/pages/Dashboard";
-import Habits from "@/components/pages/Habits";
-import Journal from "@/components/pages/Journal";
-import Goals from "@/components/pages/Goals";
-import Calendar from "@/components/pages/Calendar";
 import ProfileSettings from "@/components/pages/ProfileSettings";
 import Login from "@/components/pages/Login";
-import Signup from "@/components/pages/Signup";
-import Callback from "@/components/pages/Callback";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ResetPassword from "@/components/pages/ResetPassword";
 import PromptPassword from "@/components/pages/PromptPassword";
-import SubscriptionProvider from "@/components/providers/SubscriptionProvider";
+import Habits from "@/components/pages/Habits";
+import ResetPassword from "@/components/pages/ResetPassword";
+import Callback from "@/components/pages/Callback";
+import Dashboard from "@/components/pages/Dashboard";
+import ErrorPage from "@/components/pages/ErrorPage";
+import Signup from "@/components/pages/Signup";
+import Journal from "@/components/pages/Journal";
+import Calendar from "@/components/pages/Calendar";
+import Goals from "@/components/pages/Goals";
+import { clearUser, setUser } from "@/store/userSlice";
 
 // Create auth context
 export const AuthContext = createContext(null);
 
 function App() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isInitialized, setIsInitialized] = useState(false);
+const dispatch = useDispatch();
+const [isInitialized, setIsInitialized] = useState(false);
   
-  // Get authentication status with proper error handling
-  const userState = useSelector((state) => state.user);
-  const isAuthenticated = userState?.isAuthenticated || false;
+// Get authentication status with proper error handling
+const userState = useSelector((state) => state.user);
+const isAuthenticated = userState?.isAuthenticated || false;
   
-  // Initialize ApperUI once when the app loads
-  useEffect(() => {
-    const { ApperClient, ApperUI } = window.ApperSDK;
+// Initialize ApperUI once when the app loads
+useEffect(() => {
+  const { ApperClient, ApperUI } = window.ApperSDK;
     
     const client = new ApperClient({
       apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
